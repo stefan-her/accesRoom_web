@@ -84,7 +84,11 @@ elem-initdb label {
 	margin-top: 1em;
 }
 
-elem-initdb input[type="text"] {
+elem-initdb input[type="text"],
+elem-initdb input[type="tel"],
+elem-initdb input[type="email"],
+elem-initdb input[type="password"] {
+	margin-top: .5em;
 	width: 100%;
 	padding: 0;
 	border: none;

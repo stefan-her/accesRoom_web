@@ -20,4 +20,5 @@ lb_firstname : voornaam
 lb_lastname : naam
 lb_phone : telefoon
 lb_email : email
+lb_password : wachtwoord
 bt_adduser : voeg de meester

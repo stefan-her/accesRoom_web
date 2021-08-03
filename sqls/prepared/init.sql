@@ -47,16 +47,16 @@ CREATE TABLE `room_access`.`role`
 	ENGINE = InnoDB 
 	COMMENT = 'role des personnes dans les reunions';
 	
-CREATE TABLE `room_access`.`people` 
+CREATE TABLE `room_access`.`user` 
 	( 
-		`id_people` INT NOT NULL AUTO_INCREMENT , 
+		`id_user` INT NOT NULL AUTO_INCREMENT , 
 		`firstname` VARCHAR(255) NULL , 
 		`lastname` VARCHAR(255) NOT NULL , 
 		`password` VARCHAR(255) NOT NULL ,
 		`apikey` CHAR(36) NOT NULL , 
 		`phone` INT NOT NULL , 
 		`email` VARCHAR(255) NULL , 
-		PRIMARY KEY (`id_people`)
+		PRIMARY KEY (`id_user`)
 	) 
 	ENGINE = InnoDB 
 	COMMENT = 'table des utilisateurs connus dans l\'app';
@@ -83,20 +83,20 @@ CREATE TABLE `room_access`.`meeting_tool_tbl`
 	ENGINE = InnoDB 
 	COMMENT = 'liaison entre meeting et tool et la quantite de tool';	
 	
-CREATE TABLE `room_access`.`meeting_people_role_tbl` 
+CREATE TABLE `room_access`.`meeting_user_role_tbl` 
 	( 
-		`id_meeting_people_role_tbl` INT NOT NULL AUTO_INCREMENT , 
+		`id_meeting_user_role_tbl` INT NOT NULL AUTO_INCREMENT , 
 		`id_meeting_fk` INT NOT NULL , 
-		`id_people_fk` INT NOT NULL , 
+		`id_user_fk` INT NOT NULL , 
 		`id_role_fk` INT NOT NULL , 
 		`log` BOOLEAN NOT NULL DEFAULT FALSE , 
-		PRIMARY KEY (`id_meeting_people_role_tbl`), 
+		PRIMARY KEY (`id_meeting_user_role_tbl`), 
 		INDEX (`id_meeting_fk`), 
-		INDEX (`id_people_fk`), 
+		INDEX (`id_user_fk`), 
 		INDEX (`id_role_fk`)
 	) 
 	ENGINE = InnoDB 
-	COMMENT = 'liaison entre meeting et people + role check la presence';
+	COMMENT = 'liaison entre meeting et user + role check la presence';
 
 
 	

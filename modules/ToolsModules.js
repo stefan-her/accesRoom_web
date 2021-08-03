@@ -37,6 +37,9 @@ export default class ToolsModules {
 	}
 	
 	async requestPOST(url, arg) {
+		
+		console.log(arg);
+		
 		const RESP = await fetch(url, {
 		 	method: "POST",
 		 	body: JSON.stringify(arg),

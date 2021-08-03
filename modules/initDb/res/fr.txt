@@ -20,4 +20,5 @@ lb_firstname : prénom
 lb_lastname : nom
 lb_phone : téléphone
 lb_email : e-mail
+lb_password : mot de passe
 bt_adduser : ajouter le master

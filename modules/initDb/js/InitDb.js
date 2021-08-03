@@ -19,22 +19,24 @@ export default class InitDb extends HTMLElement {
 		this.getRegEx = "modules/initDb/src/getRegEx.php";
 		this.getDbinfo = "modules/initDb/src/getdbinfo.php";
 		this.putDbinfo = "modules/initDb/src/createdbinfo.php";
+		this.putDbUser = "modules/initDb/src/insertdbuser.php";
 		this.confirmDbinfo = "modules/initDb/src/confirmdbinfo.php";
 		this.ressources = "modules/initDb/src/ressources.php";
 		this.resRegEx = null;
 		this.resString = null;
-		this.fieldsUser = null;
+		this.formFields = null;
 		this.timeoutAction = null;
 		this.open = this.open.bind(this);
 		this.close = this.close.bind(this);
 		this.putRessource = this.putRessource.bind(this);
 		this.putRegEx = this.putRegEx.bind(this);
-		this.getResp = this.getResp.bind(this);
+		this.askConfirmToCreateDb = this.askConfirmToCreateDb.bind(this);
 		this.putIndoDb = this.putIndoDb.bind(this);
 		this.validDb = this.validDb.bind(this);
 		this.validUser = this.validUser.bind(this);
 		this.cancelResp = this.cancelResp.bind(this);
 		this.validResp = this.validResp.bind(this);
+		this.getRespCreateUser = this.getRespCreateUser.bind(this);
 		
 		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
@@ -111,7 +113,7 @@ export default class InitDb extends HTMLElement {
 			let labelText = document.createTextNode(obj[key]["label"]);
 			let input = document.createElement("input");
 
-			input.setAttribute("type", "text");
+			input.setAttribute("type", obj[key]["type"]);
 			input.setAttribute("name", key);
 			input.setAttribute("value", obj[key]["value"]);
 			
@@ -127,14 +129,36 @@ export default class InitDb extends HTMLElement {
 		form.appendChild(submit);
 		return form;
 	}
+	
+	valid(els, obj) {
+		let nbError = 0;
+		const data = {};
+		for (const el of els) {
+			if(el.tagName.toLowerCase() === "input" && el.type === "text") {
+				el.classList.remove("error");
+				if(el.value.search(obj[el.name]["regEx"]) == -1) {
+					el.setAttribute("class", "error");
+					el.classList.add("error");
+					nbError++;
+				} else { 
+					data[el.name] = el.value;
+				}
+			}
+		}
+		return { nbError, data };
+	}
 
 	askFieldDB(obj) {
-		let fields = {};
+		this.formFields = {};
 		Object.keys(obj).forEach((element)  => { 
-			fields[element.trim()] = { "label" : this.resString[element.trim()], "value" : obj[element] };
+			this.formFields[element.trim()] = { 
+				"label" : this.resString[element.trim()], 
+				"value" : obj[element], 
+				"type" : "text",
+				"regEx" : this.resRegEx["TABLE"] };
 		});
 		
-		let form = this.form(this.resString.lg_info, fields, this.resString.bt_initdb, this.validDb);
+		let form = this.form(this.resString.lg_info, this.formFields, this.resString.bt_initdb, this.validDb);
 		this.frag.appendChild(form);
 	}
 		
@@ -143,28 +167,14 @@ export default class InitDb extends HTMLElement {
 		this.element.closeButton.removeEventListener("click", this.close);
 		this.element.closeButton.setAttribute("disabled", "disabled");
 		
-		const REX = new RegExp(this.resRegEx["TABLE"], 'g');
-		let nbError = 0;
-		const data = {};
-		for (const element of e.target) {
-			if(element.tagName.toLowerCase() === "input" && element.type === "text") {
-				element.classList.remove("error");
-				if(element.value.search(REX) == -1) {
-					element.setAttribute("class", "error");
-					element.classList.add("error");
-					nbError++;
-				} else { 
-					data[element.name] = element.value;
-				}
-			}
-		}
-
-		if(nbError === 0) {
-			this.tools.ressourcesPOST(this.putDbinfo, data, this.getResp);
+		let res = this.valid(e.target, this.formFields);
+		if(res["nbError"] === 0) { 
+			this.tools.ressourcesPOST(this.putDbinfo, res["data"], this.askConfirmToCreateDb); 
+			this.formFields = null;
 		}
 	}
 
-	getResp(resp) {
+	askConfirmToCreateDb(resp) {
 		const MSG = (resp.db) ? this.resString.t_dropdb : this.resString.t_newdb;
 		let cf = confirm(MSG);
 		if(cf) { this.initDb(); }
@@ -209,23 +219,30 @@ export default class InitDb extends HTMLElement {
 		this.element.closeButton.addEventListener("click", this.close);
 		this.element.closeButton.removeAttribute("disabled");
 	}
-	
+			
 	validUser(e) {
 		e.preventDefault();
-		console.log(e.target);
-
-		
+		let res = this.valid(e.target, this.formFields);
+		if(res["nbError"] === 0) { 
+			this.tools.ressourcesPOST(this.putDbUser, res["data"], this.getRespCreateUser); 
+			this.formFields = null;
+		}
+	}
+	
+	getRespCreateUser(resp) {
+		console.log(resp);
 	}
 	
 	askMasterUser() {
-		this.fieldsUser = { 
-			"firstname" :	{ "label" : this.resString.lb_firstname, "regEx" : this.resRegEx["NAME"], "value" : "" },
-			"lastname" :	{ "label" : this.resString.lb_lastname, "regEx" : this.resRegEx["NAME"], "value" : "" },
-			"phone" :		{ "label" : this.resString.lb_phone, "regEx" : this.resRegEx["PHONE"], "value" : "" },
-			"email" :		{ "label" : this.resString.lb_email, "regEx" : this.resRegEx["EMAIL"], "value" : "" }
+		this.formFields = { 
+			"firstname" :	{ "label" : this.resString.lb_firstname, "regEx" : this.resRegEx["NAME"], "value" : "" , "type" : "text" },
+			"lastname" :	{ "label" : this.resString.lb_lastname, "regEx" : this.resRegEx["NAME"], "value" : "", "type" : "text" },
+			"phone" :		{ "label" : this.resString.lb_phone, "regEx" : this.resRegEx["PHONE"], "value" : "", "type" : "text" },
+			"email" :		{ "label" : this.resString.lb_email, "regEx" : this.resRegEx["EMAIL"], "value" : "", "type" : "text" },
+			"password" :	{ "label" : this.resString.lb_password, "regEx" : this.resRegEx["PWD"], "value" : "", "type" : "text" }
 		}
 		
-		let form = this.form(this.resString.lg_master, this.fieldsUser, this.resString.bt_adduser, this.validUser);
+		let form = this.form(this.resString.lg_master, this.formFields, this.resString.bt_adduser, this.validUser);
 		this.element.content.appendChild(form);	
 	}
 	
