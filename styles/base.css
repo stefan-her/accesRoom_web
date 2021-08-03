@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+:root {
+	--error: #cf0e00;
+	--ok:  #04cd00;
+	--normal: #000;
+	font-family: sans-serif;
+	font-size: .8em;
+}
+
+.statusok {
+	color:var(--ok);
+}
+
+.statusno {
+	color:var(--error);
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+waiting-el div {
+	font-weight: normal;
+	font-size: .8em;
+	color: #d6d5d7; 
+}

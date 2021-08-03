@@ -1,0 +1,23 @@
+bt_init : intitialisation
+bt_close : fermer
+bt_initdb : Initialiser la DB
+h_error : erreur
+lg_info : Informations sur la DB
+DB : Nom de la base de données
+TB1 : Nom de la table 1
+TB2 : Nom de la table 2
+TB3 : Nom de la table 3
+TB4 : Nom de la table 4
+TB5 : Nom de la table 5
+TB6 : Nom de la table 6
+t_newdb : voulez-vous créer la base de données
+t_dropdb : voulez-vous réinitialiser la base de données
+t_canceldb : abandon de la création de la base de données
+t_createdb : création de la base de données
+t_problem : problème sur la configuration de la base de données
+lg_master : Insérer l'utilisateur principal
+lb_firstname : prénom
+lb_lastname : nom
+lb_phone : téléphone
+lb_email : e-mail
+bt_adduser : ajouter le master

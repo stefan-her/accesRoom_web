@@ -1,0 +1,6 @@
+tl_logviewer : NFC logs
+bt_init : list logs
+bt_close : close 
+bt_before : the ten befores
+h_error : error
+t_error_1 : Database not found

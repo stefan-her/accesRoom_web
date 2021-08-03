@@ -1,0 +1,23 @@
+bt_init : intitialisatie
+bt_close : sluiten
+bt_initdb : Initialisation van de DB
+h_error : fout
+lg_info : Informaties van de DB
+DB : DB naam
+TB1 : Tabel naam 1
+TB2 : Tabel naam 2
+TB3 : Tabel naam 3
+TB4 : Tabel naam 4
+TB5 : Tabel naam 5
+TB6 : Tabel naam 6
+t_newdb : wil u de database maken?
+t_dropdb : wil u de database resetten?
+t_canceldb : stopzetting van het maken van de database
+t_createdb : database maken
+t_problem : probleem met de databaseconfiguratie
+lg_master : meester gebruiker invoegen
+lb_firstname : voornaam
+lb_lastname : naam
+lb_phone : telefoon
+lb_email : email
+bt_adduser : voeg de meester

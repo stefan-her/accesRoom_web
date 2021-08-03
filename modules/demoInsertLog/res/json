@@ -1,0 +1,18 @@
+{ "people" : {"firstname": "Stefan", "lastname": "Her", "phone": "0477096478", "email": "stefan.her@gmail.com"}}
+{ "tool" : {"tool": "Stylo"}}
+{ "tool" : {"tool": "crayon"}}
+{ "people" : {"firstname": "Philippe", "lastname": "Debroux", "phone": "0477679845", "email": "p.debroux@hotmail.com"}}
+{ "people" : {"firstname": "Jean-Marc", "lastname": "Hellincks", "phone": "0477090456", "email": "jm.hellincks@garchi.be"}}
+{ "role" : {"role": "organisateur"}}
+{ "tool" : {"tool": "projecteur"}}
+{ "people" : {"firstname": "André", "lastname": "Her", "phone": "0477678434", "email": "ahr@gbelgacom.be"}}
+{ "room" : {"name": "local réunion 1"}}
+{ "tool" : {"tool": "hub usb"}}
+{ "tool" : {"tool": "blocs notes"}}
+{ "room" : {"name": "salle de conférence"}}
+{ "room" : {"name": "auditoir"}}
+{ "role" : {"role": "participant"}}
+{ "people" : {"firstname": "Jasmine", "lastname": "Nevens", "phone": "0477698745", "email": "j.nevens@brrc.be"}}
+{ "people" : {"firstname": "Wim", "lastname": "vosch", "phone": "064590456", "email": "w.vosch@brrc.be"}}
+{ "role" : {"role": "préparateur"}}
+{ "tool" : {"tool": "ordinateur"}}

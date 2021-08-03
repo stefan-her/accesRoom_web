@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+
+elem-demoinsertlog > div {
+	position: absolute;
+	z-index: -1;
+	left: 2em;
+	height: 20em;
+	margin: 1vh 0;
+	width: 50em;
+	background: #fff;
+	border: 1px solid #ddd;
+	box-shadow: 0px 4px 6px 0px #767576;
+	animation-name: appear;
+  	animation-duration: .5s;
+}
+
+elem-demoinsertlog > div > div {
+  	height: 100%;
+  	display: flex;
+	flex-direction: column;
+}
+
+elem-demoinsertlog > div > div > header {
+	display: flex;
+	align-items: center;
+	justify-content: right;
+	justify-content: flex-end;
+	padding: .3em;
+}
+
+elem-demoinsertlog > div > div > div {
+	padding: 1em;
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+}
+
+elem-demoinsertlog > div > div > div > h1 {
+	font-weight: normal;
+	font-size: 1.3em;
+	color: #d6d5d7;
+	border-bottom: 1px solid #d6d5d7;
+}
+
+elem-demoinsertlog > div > div > div > h1 ~ div {
+	border: 1px solid #d6d5d7;
+	padding: 0;
+	flex: 1;
+	background: #000;
+	height: 13em;
+	max-height: 13em;
+	overflow: scroll;
+}
+
+elem-demoinsertlog > div > div > div > h1 ~ div p {
+	display: flex;
+	padding: 1em;
+	border-bottom: 1px solid #d6d5d7; 
+}
+
+elem-demoinsertlog > div > div > div > h1 ~ div p span {
+	display: flex;
+}
+
+elem-demoinsertlog > div > div > div > h1 ~ div p span:first-child {
+	flex: 7;
+	color: #d6d5d7;
+}
+
+elem-demoinsertlog > div > div > div > h1 ~ div p span:last-child {
+	flex: 1;
+	color:var(--ok);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+elem-demoinsertlog > div > div > div > h1 ~ div p span:last-child.error {
+	color: var(--error);
+}
+
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

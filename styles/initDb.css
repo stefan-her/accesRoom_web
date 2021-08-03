@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+
+elem-initdb > div {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	width: 100%;
+	background: rgba(0, 0, 0, .2);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	animation-name: appear;
+  	animation-duration: .5s;
+}
+
+elem-initdb > div > div {
+	min-height: 30em;
+	width: 30em;
+	background: #fff;
+	border: 1px solid #ddd;
+	box-shadow: 0px 4px 13px 0px #000;
+}
+
+elem-initdb > div > div > header {
+	display: flex;
+	align-items: center;
+	justify-content: right;
+	justify-content: flex-end;
+	padding: .3em;
+}
+
+elem-initdb > div > div > div {
+	padding: 1em;
+}
+
+elem-initdb > div > div > div > p {
+	display: flex;
+	padding: 1em;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+}
+
+elem-initdb > div > div > div > p span {
+	display: flex;
+}
+
+elem-initdb > div > div > div > p span:first-child {
+	flex: 7;
+	color: var(--normal);
+}
+
+elem-initdb > div > div > div > p span:last-child {
+	flex: 1;
+	color:var(--ok);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+elem-initdb > div > div > div > p span:last-child.error {
+	color: var(--error);
+}
+
+elem-initdb form {
+	margin: 1em 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+elem-initdb fieldset {
+	border: 1px solid #ddd;
+	padding: 1em;
+	margin: 1em 0;
+}
+
+elem-initdb label {
+	box-sizing: border-box;
+	padding: 0;
+	display: block;
+	margin-top: 1em;
+}
+
+elem-initdb input[type="text"] {
+	width: 100%;
+	padding: 0;
+	border: none;
+	border-bottom: 1px solid #ddd;
+}
+
+elem-initdb input[type="text"]:focus {
+	border-bottom: 1px solid #555;
+}
+
+elem-initdb input[type="text"].error {
+	border-bottom: 1px solid var(--error);
+	color: var(--error);
+}
+
+
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
