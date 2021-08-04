@@ -92,15 +92,6 @@ class DbInfo {
     private function deleteFile($path) {
         unlink($path);
     }
-
-    private function clearDir($path) {
-        $files = Tools::listFiles($path);
-        if(count($files) > 0) {
-            foreach ($files as $file) {
-                $this->deleteFile($path. DIRECTORY_SEPARATOR . $file);
-            }
-        }
-    }
     
     private function replaceFlag($content) {
         foreach ($this->values as $key => $value) {
@@ -135,7 +126,7 @@ class DbInfo {
             $this->replaceValue();
             Tools::createTempDir();
             $this->temp_dir = realpath(Globals::TEMPDIR);
-            Tools::clearDit(Globals::TEMPDIR);
+            Tools::clearDir(Globals::TEMPDIR);
             $this->createFile($this->temp_dir . DIRECTORY_SEPARATOR . Globals::DBINFO_STUCTURE, $this->fileContent);
             $this->dbexist();
         } catch (Exception $e) { $this->resultCreateTemp["error"] = $e->getMessage(); }
@@ -144,7 +135,7 @@ class DbInfo {
     public function actionCreate() {
         try {
             if(!$this->temp_file) { throw new Exception("problem with Temp file"); }
-            $this->clearDir($this->sqlsPrepared_dir);
+            Tools::clearDir($this->sqlsPrepared_dir);
             rename($this->temp_file, $this->utilities_file);
             $this->fileContent = file_get_contents($this->utilities_file);
             $this->getValues();

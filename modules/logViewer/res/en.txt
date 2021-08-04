@@ -4,3 +4,4 @@ bt_close : close
 bt_before : the ten befores
 h_error : error
 t_error_1 : Database not found
+p_msg_1 : No access on the logs without Master user and API key

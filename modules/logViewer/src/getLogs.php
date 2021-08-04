@@ -7,15 +7,22 @@ Autoloader::register("utilities");
 
 $res = new DBexist();
 if(empty($res->values["error"])  ||  !$res->values["error"]) {
+    
+    $res = new DBSelectmasterUser();
+    if(empty($res->values["error"])  ||  !$res->values["error"]) {
+        $res->getContent();
+    }
+    
+    
     //suite de requetes pour avoir les logs
     
     
     //TODO
     // retour provisoir a enlever pour continuer
     // remettre dans DBtools protected à la place de public la propriété $this->values
-    $res->values["db"] = false;
+    /*$res->values["db"] = false;
     $res->values["error"] = "Database not actived";
-    $res->getContent();
+    $res->getContent();*/
     // a enlever ----^
     
 } else { $res->getContent(); }

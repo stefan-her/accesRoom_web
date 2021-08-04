@@ -1,0 +1,1 @@
+SELECT `apikey` FROM `room_access`.`user` WHERE `master` = 1 

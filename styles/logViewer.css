@@ -61,6 +61,65 @@ elem-logviewer > div > div > div > h1 ~ div div.error h1 {
 	text-transform: uppercase;
 }
 
+elem-logviewer p.msg {
+	margin: 1em;
+	display: flex;
+	padding: 1em;
+	border: 1px solid #e7e5e8;
+	background: #eee;
+	border-radius: 2px;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
+elem-logviewer form {
+	margin: 1em;
+	animation-name: appear;
+  	animation-duration: .5s;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+elem-logviewer fieldset {
+	border: 1px solid #ddd;
+	padding: 1em;
+	margin: 1em 0;
+}
+
+elem-logviewer label {
+	box-sizing: border-box;
+	padding: 0;
+	display: block;
+	margin-top: 1em;
+}
+
+elem-logviewer input[type="text"],
+elem-logviewerinput[type="tel"],
+elem-logviewer input[type="email"],
+elem-logviewer input[type="password"] {
+	margin-top: .5em;
+	width: 100%;
+	padding: 0;
+	border: none;
+	border-bottom: 1px solid #ddd;
+}
+
+elem-logviewer input[type="text"]:focus {
+	border-bottom: 1px solid #555;
+}
+
+elem-logviewer input[type="text"].error {
+	border-bottom: 1px solid var(--error);
+	color: var(--error);
+}
+
+@keyframes appear {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 @keyframes appearRight {
   from { right : -30em; }

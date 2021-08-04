@@ -7,19 +7,15 @@ export default class InitDb extends HTMLElement {
 	constructor() {
 		super();
 		this.tools = new Tools();
-		this.node = document.body;
 		this.element = null;
 		this.frag = null;
-		this.parent = "elem-dashboard";
-		this.buttonInit = document.createElement("button");
-		if(this.getAttribute("data-order")) { this.buttonInit.setAttribute("data-order", this.getAttribute("data-order")); }
+		this.buttonInit = null;
 		this.elWaiting = null;
 		this.spanStatus = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.getRegEx = "modules/initDb/src/getRegEx.php";
 		this.getDbinfo = "modules/initDb/src/getdbinfo.php";
 		this.putDbinfo = "modules/initDb/src/createdbinfo.php";
-		this.putDbUser = "modules/initDb/src/insertdbuser.php";
 		this.confirmDbinfo = "modules/initDb/src/confirmdbinfo.php";
 		this.ressources = "modules/initDb/src/ressources.php";
 		this.resRegEx = null;
@@ -33,20 +29,14 @@ export default class InitDb extends HTMLElement {
 		this.askConfirmToCreateDb = this.askConfirmToCreateDb.bind(this);
 		this.putIndoDb = this.putIndoDb.bind(this);
 		this.validDb = this.validDb.bind(this);
-		this.validUser = this.validUser.bind(this);
 		this.cancelResp = this.cancelResp.bind(this);
 		this.validResp = this.validResp.bind(this);
-		this.getRespCreateUser = this.getRespCreateUser.bind(this);
-		
 		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
 	}
 	
 	initView() {
-		this.elWaiting = document.createElement("waiting-el");
-		this.node = document.getElementsByTagName(this.parent)[0].firstChild.lastChild;
-		if(this.node.childNodes) { this.node.insertBefore(this.elWaiting, this.node.firstChild); }
-		this.node.appendChild(this.elWaiting);
+		this.buttonInit = document.getElementById("bt_initdb");
 		this.tools.ressourcesGET(this.getRegEx, this.putRegEx);
 	}
 	
@@ -57,12 +47,7 @@ export default class InitDb extends HTMLElement {
 	
 	putRessource(res) {
 		this.resString = res;
-		this.node.removeChild(this.elWaiting);
-		this.elWaiting = null;
-		const VALUEBUTTON = document.createTextNode(this.resString.bt_init);
 		this.buttonInit.addEventListener("click", this.open);
-		this.buttonInit.appendChild(VALUEBUTTON);	
-		this.node.appendChild(this.buttonInit);
 	}
 	
 	open() {
@@ -76,6 +61,7 @@ export default class InitDb extends HTMLElement {
 	
 	close() {
 		this.element = this.tools.closeElement(this.buttonInit, this.open, this, this.element.child);
+		this.buttonInit.addEventListener("click", this.open);
 		if(this.elWaiting) { this.elWaiting = null; }
 		if(this.timeoutAction) {
 			clearTimeout(this.timeoutAction);
@@ -97,56 +83,6 @@ export default class InitDb extends HTMLElement {
 			this.elWaiting = null;
 		} else { this.askFieldDB(obj); }
 	}
-	
-	form(lg, obj, subValue, validator) {
-		let form = document.createElement("form");
-		form.addEventListener("submit", (e) => { validator(e); });
-		
-		let fieldset = document.createElement("fieldset");
-		let legend = document.createElement("legend");
-		let legendText = document.createTextNode(lg);
-		legend.appendChild(legendText);
-		fieldset.appendChild(legend);
-		
-		Object.keys(obj).forEach((key)  => { 
-			let label = document.createElement("label");
-			let labelText = document.createTextNode(obj[key]["label"]);
-			let input = document.createElement("input");
-
-			input.setAttribute("type", obj[key]["type"]);
-			input.setAttribute("name", key);
-			input.setAttribute("value", obj[key]["value"]);
-			
-			label.appendChild(labelText);
-			label.appendChild(input);
-			fieldset.appendChild(label);
-		});
-		
-		let submit = document.createElement("input");
-		submit.setAttribute("type", "submit");
-		submit.setAttribute("value", subValue);	
-		form.appendChild(fieldset);
-		form.appendChild(submit);
-		return form;
-	}
-	
-	valid(els, obj) {
-		let nbError = 0;
-		const data = {};
-		for (const el of els) {
-			if(el.tagName.toLowerCase() === "input" && el.type === "text") {
-				el.classList.remove("error");
-				if(el.value.search(obj[el.name]["regEx"]) == -1) {
-					el.setAttribute("class", "error");
-					el.classList.add("error");
-					nbError++;
-				} else { 
-					data[el.name] = el.value;
-				}
-			}
-		}
-		return { nbError, data };
-	}
 
 	askFieldDB(obj) {
 		this.formFields = {};
@@ -158,7 +94,7 @@ export default class InitDb extends HTMLElement {
 				"regEx" : this.resRegEx["TABLE"] };
 		});
 		
-		let form = this.form(this.resString.lg_info, this.formFields, this.resString.bt_initdb, this.validDb);
+		let form = this.tools.buildForm(this.resString.lg_info, this.formFields, this.resString.bt_initdb, this.validDb);
 		this.frag.appendChild(form);
 	}
 		
@@ -167,7 +103,7 @@ export default class InitDb extends HTMLElement {
 		this.element.closeButton.removeEventListener("click", this.close);
 		this.element.closeButton.setAttribute("disabled", "disabled");
 		
-		let res = this.valid(e.target, this.formFields);
+		let res = this.tools.valid(e.target, this.formFields);
 		if(res["nbError"] === 0) { 
 			this.tools.ressourcesPOST(this.putDbinfo, res["data"], this.askConfirmToCreateDb); 
 			this.formFields = null;
@@ -219,36 +155,13 @@ export default class InitDb extends HTMLElement {
 		this.element.closeButton.addEventListener("click", this.close);
 		this.element.closeButton.removeAttribute("disabled");
 	}
-			
-	validUser(e) {
-		e.preventDefault();
-		let res = this.valid(e.target, this.formFields);
-		if(res["nbError"] === 0) { 
-			this.tools.ressourcesPOST(this.putDbUser, res["data"], this.getRespCreateUser); 
-			this.formFields = null;
-		}
-	}
-	
-	getRespCreateUser(resp) {
-		console.log(resp);
-	}
-	
-	askMasterUser() {
-		this.formFields = { 
-			"firstname" :	{ "label" : this.resString.lb_firstname, "regEx" : this.resRegEx["NAME"], "value" : "" , "type" : "text" },
-			"lastname" :	{ "label" : this.resString.lb_lastname, "regEx" : this.resRegEx["NAME"], "value" : "", "type" : "text" },
-			"phone" :		{ "label" : this.resString.lb_phone, "regEx" : this.resRegEx["PHONE"], "value" : "", "type" : "text" },
-			"email" :		{ "label" : this.resString.lb_email, "regEx" : this.resRegEx["EMAIL"], "value" : "", "type" : "text" },
-			"password" :	{ "label" : this.resString.lb_password, "regEx" : this.resRegEx["PWD"], "value" : "", "type" : "text" }
-		}
-		
-		let form = this.form(this.resString.lg_master, this.formFields, this.resString.bt_adduser, this.validUser);
-		this.element.content.appendChild(form);	
-	}
 	
 	validResp(resp) {
 		this.putStatus(resp.resp);	
-		if(resp.resp == "ok") { this.askMasterUser(); } 
+		if(resp.resp == "ok") { 
+			let userForm = document.createElement("elem-userform");
+			this.element.content.appendChild(userForm); 
+		} 
 		else { this.spanStatus.setAttribute("class", "error"); }	
 	}
 
@@ -269,6 +182,4 @@ export default class InitDb extends HTMLElement {
 		this.element.content.appendChild(this.elWaiting);
 		this.tools.ressourcesGET(this.confirmDbinfo, this.validResp, {"action" : 1});
 	}
-	
-
 }

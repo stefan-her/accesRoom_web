@@ -45,20 +45,43 @@ class DocumentInit extends DocumentElements {
         
         // -> customElements modules/Dashboard
         $node = $this->createTag("elem-dashboard", ["style" => "styles/dashboard.css"]);
+        
+        // -> customElements modules/InitDb
+        $button = $this->createTag("action-button", ["action" => "modules/initDb", "style" => "styles/initDb.css"]);
+        $node->appendChild($button);
+        
+        // -> customElements modules/MasterUser
+        $button = $this->createTag("action-button", ["action" => "modules/masterUser", "style" => "styles/masterUser.css"]);
+        $node->appendChild($button);
+        
+        // -> customElements modules/logViewer
+        $button = $this->createTag("action-button", ["action" => "modules/demoInsertLog", "style" => "styles/demoinsertlog.css"]);
+        $node->appendChild($button);
+        
+        // -> customElements modules/logViewer
+        $button = $this->createTag("action-button", ["action" => "modules/logViewer", "style" => "styles/logViewer.css"]);
+        $node->appendChild($button);
+        
         $this->_body->appendChild($node);
         
+        
+        /*
         // -> customElements modules/InitDb
         $node = $this->createTag("elem-initdb", ["style" => "styles/initDb.css", "data-order" => "1"]);
         $this->_body->appendChild($node);
-        
-        // -> customElements modules/logViewer
-        $node = $this->createTag("elem-demoinsertlog", ["style" => "styles/demoinsertlog.css", "data-order" => "2"]);
+                
+        // -> customElements modules/MasterUser
+        $node = $this->createTag("elem-masteruser", ["style" => "styles/masterUser.css", "data-order" => "2"]);
         $this->_body->appendChild($node);
         
         // -> customElements modules/logViewer
-        $node = $this->createTag("elem-logviewer", ["style" => "styles/logViewer.css", "data-order" => "3"]);
+        $node = $this->createTag("elem-demoinsertlog", ["style" => "styles/demoinsertlog.css", "data-order" => "3"]);
         $this->_body->appendChild($node);
-
+        
+        // -> customElements modules/logViewer
+        $node = $this->createTag("elem-logviewer", ["style" => "styles/logViewer.css", "data-order" => "4"]);
+        $this->_body->appendChild($node);
+        */
                 
         $this->documentFragment->appendChild($this->_body);
     }

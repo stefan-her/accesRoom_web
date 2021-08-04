@@ -8,23 +8,19 @@ class Ressources {
     const EXT = ".txt";
     private $fileContent = null;
     private $values = array();
-    private $json = null;
     
-    public function __construct($path, $lang = null) {
+    public function __construct($path, $lang = null, $ref = null) {
         $lang = ($lang == null) ? self::LANG : $lang;
-        $path = preg_replace("#/$#", "", $path)."/";
+        $path = realpath($path)."/";
+        
         try {
             if(file_exists($path.$lang.self::EXT)) { $file = $path.$lang.self::EXT; }
             elseif(file_exists($path.self::LANG.self::EXT)) { $file = $path.self::LANG.self::EXT; }
             else { throw new Exception("file : ". $path.$lang.self::EXT . " don't exist"); }
             
             if(isset($file)) { $this->getValues($file); }
+            if($ref != null) { $this->getRef($ref); }
         } catch (Exception $e) { $this->values["error"] = $e->getMessage(); } 
-        finally { $this->getContent(); }
-    }
-    
-    public function getContent() {
-        $this->json = json_encode($this->values);
     }
     
     public function getValues($path) {
@@ -39,8 +35,17 @@ class Ressources {
         $this->values[trim($matches[1])] = trim($matches[2]);
     }
     
+    private function getRef($ref) {
+        if(isset($this->values[$ref])) { 
+            $value = $this->values[$ref];
+            $this->values =  array();
+            $this->values[$ref] = $value;
+        }
+    }
+    
     public function __get($property) {
-        return $this->json;
+        header('Content-Type: application/json');
+        echo json_encode($this->$property);
     }
 }
 

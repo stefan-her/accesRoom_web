@@ -19,12 +19,14 @@ export default class Dashboard extends HTMLElement {
 	}
 	
 	initView() {
-		const BUTTONS = document.createElement('div');
+		let divButtons = document.createElement('div');
 		this.node.appendChild(this.top);
-		this.node.appendChild(BUTTONS);
+		this.node.appendChild(divButtons);
 		this.appendChild(this.node);
 		this.top.appendChild(this.elWaiting);
-		this.tools.ressourcesGET(this.ressources, this.putRessource, {"lang" : this.lang});
+		this.tools.ressourcesGET(this.ressources, this.putRessource, {
+			"lang" : this.lang
+			});
 	}
 	
 	putRessource(res) {

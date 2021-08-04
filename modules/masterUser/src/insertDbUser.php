@@ -10,8 +10,8 @@ $data = json_decode(file_get_contents('php://input'), true);
 print_r($data);
 
 /*
-$DbInfo = new DbInfo();
-$DbInfo->createContent($data);
-$DbInfo->resultCreateTemp;
-*/
+ $DbInfo = new DbInfo();
+ $DbInfo->createContent($data);
+ $DbInfo->resultCreateTemp;
+ */
 ?>

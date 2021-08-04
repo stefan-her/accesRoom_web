@@ -16,7 +16,7 @@ class Tools {
         return $files;
     }
     
-    public static function clearDit($path) {
+    public static function clearDir($path) {
         $files = Tools::listFiles($path);
         foreach ($files as $file) {
             unlink($path . DIRECTORY_SEPARATOR . $file);

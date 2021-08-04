@@ -7,7 +7,7 @@ require_once(Globals::AUTOLOADER);
 Autoloader::register();
 
 $lang = (isset($_GET["lang"]) && is_string($_GET["lang"])) ? strtolower($_GET["lang"]) : null;
-$res = new Ressources("modules/demoInsertLog/res", $lang);
+$res = new Ressources("modules/masterUser/res", $lang);
 echo $res->values;
 
 

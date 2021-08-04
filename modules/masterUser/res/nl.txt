@@ -1,0 +1,9 @@
+bt_init : Meester gebruiker
+lg_master : meester gebruiker invoegen
+lb_firstname : voornaam
+lb_lastname : naam
+lb_phone : telefoon
+lb_email : email
+lb_password : wachtwoord
+bt_adduser : voeg de meester
+bt_close : sluiten

@@ -7,7 +7,7 @@ Autoloader::register();
 
 $lang = (isset($_GET["lang"]) && is_string($_GET["lang"])) ? strtolower($_GET["lang"]) : null;
 $res = new Ressources("modules/dashboard/res", $lang);
-echo $res->json;
+echo $res->values;
 
 
 ?>

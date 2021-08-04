@@ -36,9 +36,11 @@ if(empty($res->values["error"]) || !$res->values["error"]) {
             if(isset($content[$line +1])) { $a["line"] = $line +1; }
         }
         
-        header('Content-Type: application/json');
-        echo json_encode($a);
-    }
+        
+    } else { $a["done"] = true; }
+    
+    header('Content-Type: application/json');
+    echo json_encode($a);
     
 } else { $res->getContent(); }
 

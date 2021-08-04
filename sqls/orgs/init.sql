@@ -56,6 +56,7 @@ CREATE TABLE `##DB##`.`##TB3##`
 		`apikey` CHAR(36) NOT NULL , 
 		`phone` INT NOT NULL , 
 		`email` VARCHAR(255) NULL , 
+		`master` BOOLEAN NOT NULL DEFAULT FALSE ,
 		PRIMARY KEY (`id_##TB3##`)
 	) 
 	ENGINE = InnoDB 

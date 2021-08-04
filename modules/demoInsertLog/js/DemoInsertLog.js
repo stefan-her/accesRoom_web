@@ -2,18 +2,15 @@
 
 import Tools from '../../ToolsModules.js';
 
-export default class DemoSInsertLog extends HTMLElement {
+export default class DemoInsertLog extends HTMLElement {
 		
 	constructor() {
 		super();
 		this.tools = new Tools();
-		this.node = document.body;
 		this.element = null;
 		this.frag = null;
 		this.conteneur = null;
-		this.parent = "elem-dashboard";
-		this.buttonInit = document.createElement("button");
-		if(this.getAttribute("data-order")) { this.buttonInit.setAttribute("data-order", this.getAttribute("data-order")); }
+		this.buttonInit = null;
 		this.elWaiting = null;
 		this.lang = "en";
 		this.minMax = [5, 30];
@@ -27,28 +24,19 @@ export default class DemoSInsertLog extends HTMLElement {
 		this.timeoutAction = null;
 		this.putRessource = this.putRessource.bind(this);
 		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
-		
 		this.flag = false;
-		
 		this.initView();
 	}
 	
 		
 	initView() {
-		this.elWaiting = document.createElement("waiting-el");
-		this.node = document.getElementsByTagName(this.parent)[0].firstChild.lastChild;
-		if(this.node.childNodes) { this.node.insertBefore(this.elWaiting, this.node.firstChild); }
-		this.node.appendChild(this.elWaiting);
+		this.buttonInit = document.getElementById("bt_demoinsertlog");
 		this.tools.ressourcesGET(this.ressources, this.putRessource, {"lang" : this.lang});
 	}
 		
 	putRessource(res) {
 		this.resString = res;
-		this.node.removeChild(this.elWaiting);
-		const VALUEBUTTON = document.createTextNode(this.resString.bt_init);
 		this.buttonInit.addEventListener("click", this.open);
-		this.buttonInit.appendChild(VALUEBUTTON);
-		this.node.appendChild(this.buttonInit);
 	}
 		
 	open() {
@@ -75,7 +63,6 @@ export default class DemoSInsertLog extends HTMLElement {
 			this.buttonInit.removeAttribute("disabled");
 			this.buttonInit.addEventListener("click", this.open);
 		}
-		
 	}
 	
 	elBuilding() {
@@ -123,7 +110,7 @@ export default class DemoSInsertLog extends HTMLElement {
 					this.close();
 				}, 3000); 
 			}
-		} else { 
+		} else {
 			this.flag = false;
 			this.close(); 
 		}

@@ -95,4 +95,54 @@ export default class ToolsModules {
 		errorEl.appendChild(P);
 		return errorEl;
 	}
+		
+	buildForm(lg, obj, subValue, validator) {
+		let form = document.createElement("form");
+		form.addEventListener("submit", (e) => { validator(e); });
+		
+		let fieldset = document.createElement("fieldset");
+		let legend = document.createElement("legend");
+		let legendText = document.createTextNode(lg);
+		legend.appendChild(legendText);
+		fieldset.appendChild(legend);
+		
+		Object.keys(obj).forEach((key)  => { 
+			let label = document.createElement("label");
+			let labelText = document.createTextNode(obj[key]["label"]);
+			let input = document.createElement("input");
+
+			input.setAttribute("type", obj[key]["type"]);
+			input.setAttribute("name", key);
+			input.setAttribute("value", obj[key]["value"]);
+			
+			label.appendChild(labelText);
+			label.appendChild(input);
+			fieldset.appendChild(label);
+		});
+		
+		let submit = document.createElement("input");
+		submit.setAttribute("type", "submit");
+		submit.setAttribute("value", subValue);	
+		form.appendChild(fieldset);
+		form.appendChild(submit);
+		return form;
+	}
+	
+	valid(els, obj) {
+		let nbError = 0;
+		const data = {};
+		for (const el of els) {
+			if(el.tagName.toLowerCase() === "input" && el.type === "text") {
+				el.classList.remove("error");
+				if(el.value.search(obj[el.name]["regEx"]) == -1) {
+					el.setAttribute("class", "error");
+					el.classList.add("error");
+					nbError++;
+				} else { 
+					data[el.name] = el.value;
+				}
+			}
+		}
+		return { nbError, data };
+	}
 } 

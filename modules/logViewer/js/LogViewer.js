@@ -7,15 +7,12 @@ export default class LogViewer extends HTMLElement {
 	constructor() {
 		super();
 		this.tools = new Tools();
-		this.node = document.body;
 		this.element = null;
 		this.frag = null;
 		this.conteneurList = null;
-		this.parent = "elem-dashboard";
-		this.buttonInit = document.createElement("button");
-		if(this.getAttribute("data-order")) { this.buttonInit.setAttribute("data-order", this.getAttribute("data-order")); }
+		this.buttonInit = null;
 		this.elWaiting = null;
-		this.lang = "en";
+		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/logViewer/src/ressources.php";
 		this.getLogs = "modules/logViewer/src/getLogs.php";
 		this.resString = null;
@@ -28,20 +25,13 @@ export default class LogViewer extends HTMLElement {
 	}
 	
 	initView() {
-		this.elWaiting = document.createElement("waiting-el");
-		this.node = document.getElementsByTagName(this.parent)[0].firstChild.lastChild;
-		if(this.node.childNodes) { this.node.insertBefore(this.elWaiting, this.node.firstChild); }
-		this.node.appendChild(this.elWaiting);
+		this.buttonInit = document.getElementById("bt_logviewer");
 		this.tools.ressourcesGET(this.ressources, this.putRessource, {"lang" : this.lang});
 	}
 	
 	putRessource(res) {
 		this.resString = res;
-		this.node.removeChild(this.elWaiting);
-		const VALUEBUTTON = document.createTextNode(this.resString.bt_init);
 		this.buttonInit.addEventListener("click", this.open);
-		this.buttonInit.appendChild(VALUEBUTTON);
-		this.node.appendChild(this.buttonInit);
 	}
 	
 	open() {
@@ -80,8 +70,18 @@ export default class LogViewer extends HTMLElement {
 		if(obj.error) { 
 			let errorEl = this.tools.elError(obj, this.resString.h_error); 
 			this.conteneurList.replaceChild(errorEl, this.elWaiting);
-			this.elWaiting = null;
+		} else if(obj.empty) {
+			
+			let p = document.createElement("p");
+			p.setAttribute("class", "msg");
+			let pText = document.createTextNode(this.resString.p_msg_1);
+			p.appendChild(pText);
+			this.conteneurList.replaceChild(p, this.elWaiting);			
+			
+			let userForm = document.createElement("elem-userform");
+			this.conteneurList.appendChild(userForm);
 		} else { this.elList(obj); }
+		this.elWaiting = null;
 	}
 	
 	elList(obj) {

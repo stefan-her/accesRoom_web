@@ -1,0 +1,1 @@
+SELECT `apikey` FROM `##DB##`.`##TB3##` WHERE `master` = 1 
