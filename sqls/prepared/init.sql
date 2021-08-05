@@ -52,11 +52,11 @@ CREATE TABLE `room_access`.`user`
 		`id_user` INT NOT NULL AUTO_INCREMENT , 
 		`firstname` VARCHAR(255) NULL , 
 		`lastname` VARCHAR(255) NOT NULL , 
+		`phone` VARCHAR(255) NULL , 
+		`email` VARCHAR(255) NOT NULL , 
 		`password` VARCHAR(255) NOT NULL ,
-		`apikey` CHAR(36) NOT NULL , 
-		`phone` INT NOT NULL , 
-		`email` VARCHAR(255) NULL , 
 		`master` BOOLEAN NOT NULL DEFAULT FALSE ,
+		`apikey` CHAR(36) NOT NULL ,
 		PRIMARY KEY (`id_user`)
 	) 
 	ENGINE = InnoDB 

@@ -29,7 +29,10 @@ class DBexist extends DBtools {
                 $this->values["db"] = true;
             } else { throw new Exception("Database not found"); }
             $r->free();
-        } else { throw new Exception($this->sql . " -> " . $this->mysqli->error); }
+        } else { 
+            $this->values["db"] = false;
+            throw new Exception($this->sql . " -> " . $this->mysqli->error); 
+        }
     }
 }
 

@@ -6,7 +6,7 @@ abstract class DBtools {
     
     // TODO
     // remettre public en protected!!!
-    public $values = array("db" => false);
+    public $values = array();
     protected $mysqli = null;
     protected $sql = null;
     

@@ -1,10 +1,10 @@
 <?php
 
-class DBinsertTB1 extends DBtools {
-
-    const FILE = "insertTB1.sql";
+class DBupdateMasterTB3 extends DBtools {
     
-    public function __construct($s) {
+    const FILE = "updateMasterTB3.sql";
+    
+    public function __construct($bool, $id) {
         try {
             $path = $this->buildPath(self::FILE);
             $this->pathSqlFile = realpath($path);
@@ -12,17 +12,18 @@ class DBinsertTB1 extends DBtools {
             $this->getSql();
             $this->connect();
             $this->mysqli->select_db(DBtables::DB);
-            $this->request($s);
+            $this->request($bool, $id);
         } catch (Exception $e) {
             $this->values["error"] = $e->getMessage();
         } finally {
             $this->disconnect();
         }
     }
-
-    private function request($s) {
+    
+    private function request($bool, $id) {
+        $v = ($bool) ? 1 : 0;
         if ($stmt = $this->mysqli->prepare($this->sql)) {
-            $stmt->bind_param("s", utf8_decode($s));
+            $stmt->bind_param("ii", $v, $id);
             $stmt->execute();
             
             if(mysqli_stmt_error($stmt)) {
@@ -35,4 +36,3 @@ class DBinsertTB1 extends DBtools {
         } else { throw new Exception($this->mysqli->error);  }
     }
 }
-

@@ -145,4 +145,29 @@ export default class ToolsModules {
 		}
 		return { nbError, data };
 	}
+	
+	putStatus(msg, status) {
+		let textNode = document.createTextNode(status);
+		msg.lastChild.appendChild(textNode);
+		if(status !== "ok") { msg.lastChild.setAttribute("class", "error"); }
+	}
+		
+	createMsgStatus(msg) {
+		let p = document.createElement("p");
+		let span = document.createElement("span");
+		let spanText = document.createTextNode(msg);
+		span.appendChild(spanText);
+		
+		p.appendChild(span);
+		
+		let spanStatus = document.createElement("span");
+		p.appendChild(spanStatus);
+		return p;		
+	}
+		
+	removeChildren(node) {
+		while(node.childNodes.length > 0) {
+			node.removeChild(node.firstChild);
+		}
+	}	 
 } 

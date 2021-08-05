@@ -11,7 +11,7 @@ export default class InitDb extends HTMLElement {
 		this.frag = null;
 		this.buttonInit = null;
 		this.elWaiting = null;
-		this.spanStatus = null;
+		this.msg = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.getRegEx = "modules/initDb/src/getRegEx.php";
 		this.getDbinfo = "modules/initDb/src/getdbinfo.php";
@@ -117,67 +117,46 @@ export default class InitDb extends HTMLElement {
 		else { this.closeElementInit(); }
 	}
 	
-	createMsg(msg) {
-		let p = document.createElement("p");
-		let span = document.createElement("span");
-		let spanText = document.createTextNode(msg);
-		span.appendChild(spanText);
-		
-		p.appendChild(span);
-		
-		this.spanStatus = document.createElement("span");
-		p.appendChild(this.spanStatus);
-		return p;		
-	}
-	
-	removeChildren(node) {
-		while(node.childNodes.length > 0) {
-			node.removeChild(node.firstChild);
-		}
-	}
-	
-	putStatus(msg) {
-		let textNode = document.createTextNode(msg);
-		this.spanStatus.appendChild(textNode);
-		
+	removeWaiting() {
 		this.element.content.removeChild(this.elWaiting);
 		this.elWaiting = null;	
 	}
 	
 	cancelResp(resp) {
-		this.putStatus(resp.resp);
+		this.tools.putStatus(this.msg, resp.resp);
+		this.removeWaiting();
 		if(resp.resp == "ok") {
 			this.timeoutAction = setTimeout(() => {
 				this.close();
 			}, 3000);
-		} else { this.spanStatus.setAttribute("class", "error"); }
-		
+		}
+				
 		this.element.closeButton.addEventListener("click", this.close);
 		this.element.closeButton.removeAttribute("disabled");
 	}
 	
 	validResp(resp) {
-		this.putStatus(resp.resp);	
+		this.tools.putStatus(this.msg, resp.resp);	
+		this.removeWaiting();
 		if(resp.resp == "ok") { 
 			let userForm = document.createElement("elem-userform");
 			this.element.content.appendChild(userForm); 
 		} 
-		else { this.spanStatus.setAttribute("class", "error"); }	
 	}
 
 	closeElementInit() {
-		let msg = this.createMsg(this.resString.t_canceldb);
-		this.removeChildren(this.element.content);
-		this.element.content.appendChild(msg);
+		this.msg = this.tools.createMsgStatus(this.resString.t_canceldb);
+		this.tools.removeChildren(this.element.content);
+		this.element.content.appendChild(this.msg);
 		this.elWaiting = document.createElement("waiting-el");
 		this.element.content.appendChild(this.elWaiting);
 		this.tools.ressourcesGET(this.confirmDbinfo, this.cancelResp, {"action" : 0});
 	}
 	
 	initDb() {
-		let msg = this.createMsg(this.resString.t_createdb);
-		this.removeChildren(this.element.content);
-		this.element.content.appendChild(msg);
+		this.msg = this.tools.createMsgStatus(this.resString.t_createdb);
+		this.tools.removeChildren(this.element.content);
+		this.element.content.appendChild(this.msg);
 		this.elWaiting = document.createElement("waiting-el");
 		this.element.content.appendChild(this.elWaiting);
 		this.tools.ressourcesGET(this.confirmDbinfo, this.validResp, {"action" : 1});

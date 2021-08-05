@@ -7,3 +7,4 @@ lb_email : email
 lb_password : password
 bt_adduser : add master
 bt_close : close
+p_insert : Insertion of the Master user into the database
