@@ -16,7 +16,7 @@ export default class LogViewer extends HTMLElement {
 		this.timeoutAction = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/logViewer/src/ressources.php";
-		this.getLogs = "modules/logViewer/src/getLogs.php";
+		this.validForLogs = "modules/logViewer/src/validForLogs.php";
 		this.resString = null;
 		this.open = this.open.bind(this);
 		this.close = this.close.bind(this);
@@ -70,7 +70,7 @@ export default class LogViewer extends HTMLElement {
 		this.element.content.appendChild(this.frag);
 		this.elWaiting = document.createElement("waiting-el");
 		this.conteneurList.appendChild(this.elWaiting);
-		this.tools.ressourcesGET(this.getLogs, this.putLogs);
+		this.tools.ressourcesGET(this.validForLogs, this.putLogs);
 	}
 	
 	putLogs(obj) {
@@ -78,7 +78,6 @@ export default class LogViewer extends HTMLElement {
 			let errorEl = this.tools.elError(obj, this.resString.h_error); 
 			this.conteneurList.replaceChild(errorEl, this.elWaiting);
 		} else if(obj.empty) {
-			
 			let p = document.createElement("p");
 			p.setAttribute("class", "msg");
 			let pText = document.createTextNode(this.resString.p_msg_1);
@@ -92,7 +91,11 @@ export default class LogViewer extends HTMLElement {
 			this.observer_userForm = new MutationObserver(this.closeElementInit);
 			this.observer_userForm.observe(userForm, config);
 		} else { this.elList(obj); }
-		this.elWaiting = null;
+		
+		//TODO
+		// requete pour l'APIKEY
+		// requete pour les logs via api/logs.php
+		console.log("logged");
 	}
 	
 	delNodesInit() {
@@ -103,6 +106,8 @@ export default class LogViewer extends HTMLElement {
 		}
 		this.elWaiting = document.createElement("waiting-el");
 		this.conteneurList.appendChild(this.elWaiting);
+		
+		this.tools.ressourcesGET(this.validForLogs, this.putLogs);
 	}
 	
 	closeElementInit() {
@@ -116,6 +121,6 @@ export default class LogViewer extends HTMLElement {
 	}
 	
 	logBefore() {
-		console.log("the ten before");
+		console.log("the five before");
 	}	
 }

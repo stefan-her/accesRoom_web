@@ -63,25 +63,6 @@ class DocumentInit extends DocumentElements {
         $node->appendChild($button);
         
         $this->_body->appendChild($node);
-        
-        
-        /*
-        // -> customElements modules/InitDb
-        $node = $this->createTag("elem-initdb", ["style" => "styles/initDb.css", "data-order" => "1"]);
-        $this->_body->appendChild($node);
-                
-        // -> customElements modules/MasterUser
-        $node = $this->createTag("elem-masteruser", ["style" => "styles/masterUser.css", "data-order" => "2"]);
-        $this->_body->appendChild($node);
-        
-        // -> customElements modules/logViewer
-        $node = $this->createTag("elem-demoinsertlog", ["style" => "styles/demoinsertlog.css", "data-order" => "3"]);
-        $this->_body->appendChild($node);
-        
-        // -> customElements modules/logViewer
-        $node = $this->createTag("elem-logviewer", ["style" => "styles/logViewer.css", "data-order" => "4"]);
-        $this->_body->appendChild($node);
-        */
                 
         $this->documentFragment->appendChild($this->_body);
     }
