@@ -14,7 +14,7 @@ export default class ActionButton extends HTMLElement {
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.resString = null;
 		this.putRessource = this.putRessource.bind(this);
-		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
+		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
 	}
 	

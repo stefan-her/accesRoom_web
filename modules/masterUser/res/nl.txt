@@ -1,10 +1,13 @@
 bt_init : Meester gebruiker
 lg_master : meester gebruiker invoegen
+lg_updatemaster : meester gebruiker update
 lb_firstname : voornaam
 lb_lastname : naam
 lb_phone : telefoon
 lb_email : email
 lb_password : wachtwoord
 bt_adduser : voeg de meester
+bt_updateuser : update
 bt_close : sluiten
 p_insert : Invoegen van de Meester gebruiker in de database
+p_update : Update van de Meester gebruiker in de database

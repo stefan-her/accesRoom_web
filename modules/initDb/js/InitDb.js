@@ -22,6 +22,7 @@ export default class InitDb extends HTMLElement {
 		this.resString = null;
 		this.formFields = null;
 		this.timeoutAction = null;
+		this.observer_userForm = null;
 		this.open = this.open.bind(this);
 		this.close = this.close.bind(this);
 		this.putRessource = this.putRessource.bind(this);
@@ -31,7 +32,8 @@ export default class InitDb extends HTMLElement {
 		this.validDb = this.validDb.bind(this);
 		this.cancelResp = this.cancelResp.bind(this);
 		this.validResp = this.validResp.bind(this);
-		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
+		this.closeElement = this.closeElement.bind(this);
+		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
 	}
 	
@@ -141,7 +143,17 @@ export default class InitDb extends HTMLElement {
 		if(resp.resp == "ok") { 
 			let userForm = document.createElement("elem-userform");
 			this.element.content.appendChild(userForm); 
+			
+			const config = { attributes: true };
+			this.observer_userForm = new MutationObserver(this.closeElement);
+			this.observer_userForm.observe(userForm, config);
 		} 
+	}
+	
+	closeElement() {
+		this.timeoutAction = setTimeout(() => {
+			this.close();
+		}, 3000);
 	}
 
 	closeElementInit() {

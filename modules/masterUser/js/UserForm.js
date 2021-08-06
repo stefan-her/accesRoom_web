@@ -18,12 +18,15 @@ export default class UserForm extends HTMLElement {
 		this.masterValues = null;
 		this.resString = null;
 		this.resRegEx = null;
+		this.msg = null;
+		this.update= false;
 		this.putRegEx = this.putRegEx.bind(this);
 		this.putRessource = this.putRessource.bind(this);
 		this.validUser = this.validUser.bind(this);
 		this.getRespCreateUser = this.getRespCreateUser.bind(this);
 		this.putFieldsName = this.putFieldsName.bind(this);
 		this.putMasterValues = this.putMasterValues.bind(this);
+		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
 	}
 	
@@ -59,16 +62,22 @@ export default class UserForm extends HTMLElement {
 	}
 	
 	putMasterValues(resp) {
-		Object.keys(resp).forEach((key)  => { 
-			if(this.formFields[key]) {
-				this.formFields[key]["value"] = resp[key];
-			}		
-		});		
+		if(resp && !resp["error"] && !resp["empty"]) {
+			Object.keys(resp).forEach((key)  => { 
+				if(this.formFields[key]) {
+					this.formFields[key]["value"] = resp[key];
+				}		
+			});	
+			this.update = true;	
+		}
+
 		this.askMasterUser();
 	}
 			
 	askMasterUser() {
-		this.form = this.tools.buildForm(this.resString.lg_master, this.formFields, this.resString.bt_adduser, this.validUser);
+		const lgForm = (this.update) ? this.resString.lg_updatemaster : this.resString.lg_master;
+		const msgBt = (this.update) ? this.resString.bt_updateuser : this.resString.bt_adduser;
+		this.form = this.tools.buildForm(lgForm, this.formFields, msgBt, this.validUser);
 		this.replaceChild(this.form, this.elWaiting);	
 	}
 
@@ -79,13 +88,21 @@ export default class UserForm extends HTMLElement {
 			this.tools.ressourcesPOST(this.putDbUser, res["data"], this.getRespCreateUser); 
 			this.removeChild(this.form);
 			this.form = null;
+			
+			const msgTxt = (this.update) ? this.resString.p_update: this.resString.p_insert;
+			this.msg = this.tools.createMsgStatus(msgTxt);
+			this.appendChild(this.msg, this.elWaiting);
+						
 			this.elWaiting = document.createElement("waiting-el");
 			this.appendChild(this.elWaiting);
 		}
 	}
 	
-	getRespCreateUser() {
-		let msg = this.tools.createMsgStatus(this.resString.p_insert);
-		this.appendChild(msg);
+	getRespCreateUser(resp) {
+		let status = (resp && resp.done) ? "ok" : "no";
+		this.tools.putStatus(this.msg, status);
+		this.elWaiting.parentNode.removeChild(this.elWaiting);
+		this.elWaiting = null;
+		if(status === "ok") { this.setAttribute("status", true); }
 	}
 }

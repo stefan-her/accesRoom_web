@@ -116,6 +116,42 @@ elem-logviewer input[type="text"].error {
 	color: var(--error);
 }
 
+
+elem-initdb > div > div > div > p,
+elem-logviewer elem-userform > p {
+	display: flex;
+	padding: 1em;
+	border: 1px solid #ddd;
+	border-radius: 2px;
+	margin: 0 1em;
+}
+
+elem-initdb > div > div > div > p span,
+elem-logviewer elem-userform > p span {
+	display: flex;
+}
+
+elem-initdb > div > div > div > p span:first-child,
+elem-logviewer elem-userform > p span:first-child {
+	flex: 7;
+	color: var(--normal);
+}
+
+elem-initdb > div > div > div > p span:last-child,
+elem-logviewer elem-userform > p span:last-child {
+	flex: 1;
+	color:var(--ok);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 5em;
+}
+
+elem-initdb > div > div > div > p span:last-child.error,
+elem-logviewer elem-userform > p span:last-child.error  {
+	color: var(--error);
+}
+
 @keyframes appear {
   from { opacity: 0; }
   to { opacity: 1; }

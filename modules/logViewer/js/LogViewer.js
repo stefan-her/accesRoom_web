@@ -12,6 +12,8 @@ export default class LogViewer extends HTMLElement {
 		this.conteneurList = null;
 		this.buttonInit = null;
 		this.elWaiting = null;
+		this.observer_userForm = null;
+		this.timeoutAction = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/logViewer/src/ressources.php";
 		this.getLogs = "modules/logViewer/src/getLogs.php";
@@ -20,7 +22,8 @@ export default class LogViewer extends HTMLElement {
 		this.close = this.close.bind(this);
 		this.putLogs = this.putLogs.bind(this);
 		this.putRessource = this.putRessource.bind(this);
-		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
+		this.closeElementInit = this.closeElementInit.bind(this);
+		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
 	}
 	
@@ -49,6 +52,10 @@ export default class LogViewer extends HTMLElement {
 		this.element = this.tools.closeElement(this.buttonInit, this.open, this, this.element.child);
 		this.conteneurList = null;
 		if(this.elWaiting) { this.elWaiting = null; }
+		if(this.timeoutAction) {
+			clearTimeout(this.timeoutAction);
+			this.timeoutAction = null;
+		}
 	}
 	
 	elBuilding() {
@@ -80,8 +87,28 @@ export default class LogViewer extends HTMLElement {
 			
 			let userForm = document.createElement("elem-userform");
 			this.conteneurList.appendChild(userForm);
+			
+			const config = { attributes: true };
+			this.observer_userForm = new MutationObserver(this.closeElementInit);
+			this.observer_userForm.observe(userForm, config);
 		} else { this.elList(obj); }
 		this.elWaiting = null;
+	}
+	
+	delNodesInit() {
+		this.tools.removeChildren(this.conteneurList);
+		if(this.timeoutAction) {
+			clearTimeout(this.timeoutAction);
+			this.timeoutAction = null;
+		}
+		this.elWaiting = document.createElement("waiting-el");
+		this.conteneurList.appendChild(this.elWaiting);
+	}
+	
+	closeElementInit() {
+		this.timeoutAction = setTimeout(() => {
+			this.delNodesInit();
+		}, 3000);
 	}
 	
 	elList(obj) {

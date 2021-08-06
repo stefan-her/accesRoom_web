@@ -1,10 +1,13 @@
 bt_init : Master user
 lg_master : Insert master user
+lg_updatemaster : Update master user
 lb_firstname : first name
 lb_lastname : last name
 lb_phone : phone
 lb_email : email
 lb_password : password
 bt_adduser : add master
+bt_updateuser : update
 bt_close : close
 p_insert : Insertion of the Master user into the database
+p_update : Update of the Master user into the database

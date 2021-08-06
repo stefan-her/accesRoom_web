@@ -23,7 +23,7 @@ export default class DemoInsertLog extends HTMLElement {
 		this.timeoutPutRecord = null;
 		this.timeoutAction = null;
 		this.putRessource = this.putRessource.bind(this);
-		if(this.getAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
+		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.flag = false;
 		this.initView();
 	}

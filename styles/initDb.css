@@ -35,31 +35,42 @@ elem-initdb > div > div > div {
 	padding: 1em;
 }
 
-elem-initdb > div > div > div > p {
+elem-initdb elem-userform form {
+	margin: 0 1em;
+}
+
+elem-initdb > div > div > div > p,
+elem-initdb elem-userform > p {
 	display: flex;
 	padding: 1em;
 	border: 1px solid #ddd;
 	border-radius: 2px;
+	margin: 1em;
 }
 
-elem-initdb > div > div > div > p span {
+elem-initdb > div > div > div > p span,
+elem-initdb elem-userform > p span {
 	display: flex;
 }
 
-elem-initdb > div > div > div > p span:first-child {
+elem-initdb > div > div > div > p span:first-child,
+elem-initdb elem-userform > p span:first-child {
 	flex: 7;
 	color: var(--normal);
 }
 
-elem-initdb > div > div > div > p span:last-child {
+elem-initdb > div > div > div > p span:last-child,
+elem-initdb elem-userform > p span:last-child {
 	flex: 1;
 	color:var(--ok);
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	min-width: 5em;
 }
 
-elem-initdb > div > div > div > p span:last-child.error {
+elem-initdb > div > div > div > p span:last-child.error,
+elem-initdb elem-userform > p span:last-child.error  {
 	color: var(--error);
 }
 

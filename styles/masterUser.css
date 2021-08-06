@@ -35,31 +35,34 @@ elem-masteruser > div > div > div {
 	padding: 1em;
 }
 
-elem-masteruser > div > div > div > p {
+
+
+elem-masteruser elem-userform > p {
 	display: flex;
 	padding: 1em;
 	border: 1px solid #ddd;
 	border-radius: 2px;
 }
 
-elem-masteruser > div > div > div > p span {
+elem-masteruser elem-userform > p span {
 	display: flex;
 }
 
-elem-masteruser > div > div > div > p span:first-child {
+elem-masteruser elem-userform > p span:first-child {
 	flex: 7;
 	color: var(--normal);
 }
 
-elem-masteruser > div > div > div > p span:last-child {
+elem-masteruser elem-userform > p span:last-child {
 	flex: 1;
 	color:var(--ok);
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	min-width: 5em;
 }
 
-elem-masteruser > div > div > div > p span:last-child.error {
+elem-masteruser elem-userform > p span:last-child.error {
 	color: var(--error);
 }
 
