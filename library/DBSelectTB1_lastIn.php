@@ -26,7 +26,10 @@ class DBSelectTB1_lastIn extends DBtools {
         if ($r = $this->mysqli->query($this->sql)) {
             if($r->num_rows == 1) {
                 $this->values = $r->fetch_array(MYSQLI_NUM);
-            } else { $this->values["empty"] = true; }
+            } else { 
+                $this->values["empty"] = true; 
+                $this->values["error"] = "no logs found"; 
+            }
             $r->free();
         } else { throw new Exception($this->sql . " -> " . $this->mysqli->error); }
     }

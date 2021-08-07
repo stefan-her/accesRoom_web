@@ -27,10 +27,10 @@ class DBSelectTB1_grp extends DBtools {
             $stmt->bind_param("ii", $start, $limit);
             $stmt->execute();
             $r = $stmt->get_result();
-            
             if(mysqli_stmt_error($stmt)) {
                 $this->values["error"] = mysqli_stmt_error($stmt);
-            } elseif($r->num_rows == 0) { $this->values["empty"] = true; 
+            } elseif($r->num_rows == 0) { 
+                $this->values["empty"] = true; 
             } else {
                 while ($row = $r->fetch_array(MYSQLI_ASSOC)) {
                     $this->values[] = array_map("utf8_encode", $row); 

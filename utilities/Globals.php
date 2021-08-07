@@ -2,8 +2,7 @@
 
 class Globals {
     const TITLE = "Contrôle d'accès avec tag NFC";
-    //const BASE = "http://accessrooms.local/";
-    const BASE = "http:./accessRooms";
+    const BASE = "http://accessrooms.local/";
     const DESC = "Application de gestion de locaux de réunion: réservation, vérification de disponibilité, vérification de présence";
     const NOSCRIPT = "Veuilliez activer le Javascript pour lancer l'application";
     const REACT_MANIFEST_COMMENT = '
