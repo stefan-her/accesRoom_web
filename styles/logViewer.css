@@ -55,21 +55,21 @@ elem-logviewer > div > div > div > h1 ~ div {
 	overflow: scroll;
 }
 
-elem-logviewer > div > div > div > h1 ~ div p {
+elem-logviewer > div > div > div > h1 ~ div > p {
 	padding: .5em;
 	margin: 0;
 	border-bottom: 1px solid #d6d5d7;
 }
 
-elem-logviewer > div > div > div > h1 ~ div p:nth-child(even) {
+elem-logviewer > div > div > div > h1 ~ div > p:nth-child(even) {
 	background: #f0effc;
 }
 
-elem-logviewer > div > div > div > h1 ~ div p span {
+elem-logviewer > div > div > div > h1 ~ div > p span {
 	display: block;
 }
 
-elem-logviewer > div > div > div > h1 ~ div p span:last-child {
+elem-logviewer > div > div > div > h1 ~ div > p span:last-child {
 	font-size: .7em;
 	text-align: right;
 	margin-top: .5em;

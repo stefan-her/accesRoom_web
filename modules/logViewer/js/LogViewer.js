@@ -14,20 +14,24 @@ export default class LogViewer extends HTMLElement {
 		this.elWaiting = null;
 		this.observer_userForm = null;
 		this.timeoutAction = null;
+		this.timeoutCheckNew = null;
 		this.dataIdUp = null;
-		this.dataInDown = null;
+		this.dataIdDown = null;
 		this.apikey = null;
 		this.buttonBeforeLogs = null;
+		this.msgError = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/logViewer/src/ressources.php";
 		this.validForLogs = "modules/logViewer/src/validForLogs.php";
-		this.apiLogs = "api/get_logs.php";
+		this.apiLogsGrp = "api/get_logsGrp.php";
+		this.apiLogsStart = "api/get_logsStart.php";
 		this.resString = null;
 		this.open = this.open.bind(this);
 		this.close = this.close.bind(this);
 		this.putLogs = this.putLogs.bind(this);
 		this.putRessource = this.putRessource.bind(this);
 		this.putElList = this.putElList.bind(this);
+		this.addElList = this.addElList.bind(this);
 		this.closeElementInit = this.closeElementInit.bind(this);
 		this.logBefore = this.logBefore.bind(this);
 		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
@@ -63,12 +67,16 @@ export default class LogViewer extends HTMLElement {
 			clearTimeout(this.timeoutAction);
 			this.timeoutAction = null;
 		}
+		if(this.timeoutCheckNew) {
+			clearTimeout(this.timeoutCheckNew);
+			this.timeoutCheckNew = null;
+		}
 	}
 	
 	elBuilding() {
 		let frag = document.createDocumentFragment();
 		this.buttonBeforeLogs = document.createElement("button");
-		let buttonText = document.createTextNode(this.resString.bt_before);
+		let buttonText = document.createTextNode(this.resString.bt_before.replace("__nb__", this.limit));
 		this.buttonBeforeLogs.appendChild(buttonText);
 		this.buttonBeforeLogs.addEventListener("click", this.logBefore);
 		frag.appendChild(this.buttonBeforeLogs);
@@ -82,8 +90,8 @@ export default class LogViewer extends HTMLElement {
 	
 	putLogs(obj) {
 		if(obj.error) { 
-			let errorEl = this.tools.elError(obj, this.resString.h_error); 
-			this.conteneurList.replaceChild(errorEl, this.elWaiting);
+			this.msgError = this.tools.elError(obj, this.resString.h_error); 
+			this.conteneurList.replaceChild(this.msgError, this.elWaiting);
 		} else if(obj.empty) {
 			let p = document.createElement("p");
 			p.setAttribute("class", "msg");
@@ -99,7 +107,7 @@ export default class LogViewer extends HTMLElement {
 			this.observer_userForm.observe(userForm, config);
 		} else { 
 			this.apikey = obj.apikey;
-			let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogs);
+			let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogsGrp);
 			url.searchParams.set('apikey', this.apikey);
 			url.searchParams.set('limit', this.limit);	
 			this.tools.ressourcesGET(url.toString(), this.putElList);		
@@ -151,32 +159,63 @@ export default class LogViewer extends HTMLElement {
 		
 		let frag = document.createDocumentFragment();
 		if(obj.empty) { 
-			let msg = this.tools.elError(obj, this.resString.h_error);
-			frag.appendChild(msg);
+			this.msgError = this.tools.elError(obj, this.resString.h_error);
+			frag.appendChild(this.msgError);
 		} else {
 			for(let i = obj.length -1; i >= 0; i--) {
 				this.dataIdUp = obj[i].id;
 				let node = this.createElLine(obj[i]);
 				if(frag.childNodes.length > 0) { frag.insertBefore(node, frag.firstChild); }
 				else { frag.appendChild(node); }
+				
+				if(this.dataIdDown === null) { this.dataIdDown = this.dataIdUp; }
 			}
-			if(this.dataInDown == null) { 
-				this.dataIdUp; 
-			}
+			
 			this.dataIdUp -= 1;
 			if(this.dataIdUp == 0) { this.buttonBeforeLogs.setAttribute("disabled", "disabled"); }
 		}
 		
 		if(this.conteneurList.childNodes.length > 0) { this.conteneurList.insertBefore(frag, this.conteneurList.firstChild); }
 		else { this.conteneurList.appendChild(frag); }
+		
+		this.loopCheckNewLogs();
 	}
 	
+	addElList(obj) {
+		if(!obj.empty && !obj.error) {
+			
+			if(this.msgError) { 
+				this.conteneurList.removeChild(this.msgError); 
+				this.msgError = null;
+			}
+			
+			let frag = document.createDocumentFragment();
+			for(let i = 0; i < obj.length; i++) {
+				let node = this.createElLine(obj[i]);
+				frag.appendChild(node);
+				this.dataIdDown += 1;
+			}
+			this.conteneurList.appendChild(frag);
+			this.conteneurList.scrollTop = this.conteneurList.scrollHeight;			
+		}
+		
+		this.timeoutCheckNew = setTimeout(() => {
+			this.loopCheckNewLogs();
+		}, 1000);
+	}
+	
+	loopCheckNewLogs() {
+		let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogsStart);
+		url.searchParams.set('apikey', this.apikey);
+		url.searchParams.set('start', (this.dataIdDown === null) ? 0 : this.dataIdDown) ;
+		this.tools.ressourcesGET(url.toString(), this.addElList);
+	}
 	
 	logBefore() {
 		this.elWaiting = document.createElement("waiting-el");
 		this.conteneurList.insertBefore(this.elWaiting, this.conteneurList.firstChild);
 		
-		let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogs);
+		let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogsGrp);
 		url.searchParams.set('apikey', this.apikey);
 		url.searchParams.set('start', this.dataIdUp);
 		url.searchParams.set('limit', this.limit);	
