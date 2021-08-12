@@ -55,7 +55,7 @@ class DocumentInit extends DocumentElements {
         $node->appendChild($button);
         
         // -> customElements modules/logViewer
-        $button = $this->createTag("action-button", ["action" => "modules/demoInsertLog", "style" => "styles/demoinsertlog.css"]);
+        $button = $this->createTag("action-button", ["action" => "modules/insertStartLogs", "style" => "styles/insertStartLogs.css"]);
         $node->appendChild($button);
         
         // -> customElements modules/logViewer

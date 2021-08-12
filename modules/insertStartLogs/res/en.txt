@@ -1,0 +1,3 @@
+bt_init : Insertion Logs démarrage
+bt_close : close
+tl_insertlog : Insertion des premiers Logs

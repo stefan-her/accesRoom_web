@@ -1,3 +1,0 @@
-bt_init : demo -> insert logs
-bt_close : close
-tl_demoinsertlog : Logs simulation

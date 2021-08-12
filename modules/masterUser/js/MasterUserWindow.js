@@ -2,31 +2,32 @@
 
 import Tools from '../../ToolsModules.js';
 
-export default class MasterUser extends HTMLElement {
+export default class MasterUserWindow extends HTMLElement {
 	
-	constructor() {
-		super();
+	//constructor() {
+		//super();
 		
+	connectedCallback() {	
 		this.tools = new Tools();
-		
-		//this.element = null;
+		this.element = null;
 		this.buttonInit = null;
-		
-		
-		this.masterUserForm = null;
-		
-		//this.elWaiting = document.createElement("waiting-el");
-		//this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
+		this.elWaiting = document.createElement("waiting-el");
+		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/masterUser/src/ressources.php";
 		this.resString = null;
-		//this.observer_userForm = null;
-		//this.timeoutAction = null;
+		this.observer_userForm = null;
+		this.timeoutAction = null;
 		this.open = this.open.bind(this);
-		//this.close = this.close.bind(this);
+		this.close = this.close.bind(this);
 		this.putRessource = this.putRessource.bind(this);
-		//this.closeElementInit = this.closeElementInit.bind(this);
-		//if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }*/
-		this.initView();
+		this.closeElementInit = this.closeElementInit.bind(this);
+		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
+		//this.initView();
+	}
+	
+	disconnectedCallback() {
+		clearTimeout(this.timeoutAction);
+		this.element = null;
 	}
 	
 	initView() {
@@ -36,18 +37,10 @@ export default class MasterUser extends HTMLElement {
 	
 	putRessource(res) {
 		this.resString = res;
-		this.buttonInit.addEventListener("click", this.open);
-		
+		//this.buttonInit.addEventListener("click", this.open);
+		this.open();
 	}
 	
-	open() {
-		this.masterUserForm = document.createElement("elem-masteruserwindow");
-		this.appendChild(this.masterUserForm);
-		this.masterUserForm.initView();
-	}
-
-	
-	/*
 	open() {
 		this.element = this.tools.openElement(this.buttonInit, this.open, this, this.close);
 		const VALUEBUTTON = document.createTextNode(this.resString.bt_close);
@@ -63,15 +56,17 @@ export default class MasterUser extends HTMLElement {
 	}
 	
 	close() {
-		//this.element = this.tools.closeElement(this.buttonInit, this.open, this, this.element.child);
+		this.element = this.tools.closeElement(this.buttonInit, this.open, this, this.element.child);
 		this.conteneurList = null;
+		this.parentNode.removeChild(this);
 		if(this.elWaiting) { this.elWaiting = null; }
 		if(this.timeoutAction) { clearTimeout(this.timeoutAction); }
 	}
 	
 	closeElementInit() {
+		this.parentNode.setAttribute("status", true);
 		this.timeoutAction = setTimeout(() => {
 			this.close();
 		}, 3000);
-	}*/
+	}
 }

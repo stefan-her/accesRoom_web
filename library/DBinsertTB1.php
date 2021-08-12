@@ -22,7 +22,7 @@ class DBinsertTB1 extends DBtools {
 
     private function request($s) {
         if ($stmt = $this->mysqli->prepare($this->sql)) {
-            $stmt->bind_param("s", utf8_decode($s));
+            @$stmt->bind_param("s", utf8_decode($s));
             $stmt->execute();
             
             if(mysqli_stmt_error($stmt)) {

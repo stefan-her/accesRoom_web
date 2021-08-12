@@ -6,7 +6,7 @@ require_once(realpath(Globals::AUTOLOADER));
 Autoloader::register("utilities");
 
 // fichier ressource pour le test
-$path = realpath("modules/demoInsertLog/res/json");
+$path = realpath("modules/insertStartLogs/res/json");
 
 $res = new DBexist();
 if(empty($res->values["error"]) || !$res->values["error"]) {

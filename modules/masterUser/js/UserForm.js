@@ -103,6 +103,8 @@ export default class UserForm extends HTMLElement {
 		this.tools.putStatus(this.msg, status);
 		this.elWaiting.parentNode.removeChild(this.elWaiting);
 		this.elWaiting = null;
-		if(status === "ok") { this.setAttribute("status", true); }
+		if(status === "ok") { 
+			this.setAttribute("status", true);
+		}
 	}
 }

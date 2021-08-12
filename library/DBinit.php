@@ -23,7 +23,7 @@ class DBinit extends DBtools  {
         if ($this->mysqli->multi_query($this->sql)) {
             do {
                 $this->mysqli->store_result();
-            } while ($this->mysqli->next_result());
+            } while ($this->mysqli->more_results() && $this->mysqli->next_result());
         } else { throw new Exception($this->mysqli->error); }
         $this->values["done"] = true;
     }

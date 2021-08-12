@@ -27,7 +27,7 @@ class DBexist extends DBtools {
         if ($r = $this->mysqli->query($this->sql)) {
             if($r->num_rows == 1) {
                 $this->values["db"] = true;
-            } else { throw new Exception("Database not found"); }
+            } else { throw new Exception("Database not found :-;"); }
             $r->free();
         } else { 
             $this->values["db"] = false;

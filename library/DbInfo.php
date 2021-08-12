@@ -82,7 +82,7 @@ class DbInfo {
             $content = preg_replace("#\#\#DB\#\##", $this->insert["DB"], $content);
             $res = new DBexist($content);
             if(isset($res->values["error"])) { 
-                $this->resultCreateTemp["db"] = $res->values["db"];
+                //$this->resultCreateTemp["db"] = $res->values["db"];
                 throw new Exception($res->values["error"]); 
             }
             $this->resultCreateTemp["db"] = $res->values["db"];
@@ -111,7 +111,7 @@ class DbInfo {
     private function runSql() {
         $content = file_get_contents($this->sqlsPrepared_dir . DIRECTORY_SEPARATOR . self::SQLDBEXIST_FILE);
         $res = new DBexist();
-        if($res->values["db"]) {
+        if(isset($res->values["db"])) {
             $drop = new DBdrop();
             if(!$drop->values["done"]) { throw new Exception("DB not remove"); }
         }

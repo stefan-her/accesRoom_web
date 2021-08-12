@@ -20,6 +20,7 @@ export default class LogViewer extends HTMLElement {
 		this.apikey = null;
 		this.buttonBeforeLogs = null;
 		this.msgError = null;
+		this.userForm = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/logViewer/src/ressources.php";
 		this.validForLogs = "modules/logViewer/src/validForLogs.php";
@@ -60,9 +61,12 @@ export default class LogViewer extends HTMLElement {
 	}
 	
 	close() {
+		console.log("ici on close");
 		this.element = this.tools.closeElement(this.buttonInit, this.open, this, this.element.child);
 		this.conteneurList = null;
-		if(this.elWaiting) { this.elWaiting = null; }
+		if(this.elWaiting) { 
+			this.elWaiting = null; 
+		}
 		if(this.timeoutAction) {
 			clearTimeout(this.timeoutAction);
 			this.timeoutAction = null;
@@ -78,7 +82,6 @@ export default class LogViewer extends HTMLElement {
 		this.buttonBeforeLogs = document.createElement("button");
 		let buttonText = document.createTextNode(this.resString.bt_before.replace("__nb__", this.limit));
 		this.buttonBeforeLogs.appendChild(buttonText);
-		this.buttonBeforeLogs.addEventListener("click", this.logBefore);
 		frag.appendChild(this.buttonBeforeLogs);
 		this.conteneurList = document.createElement("div");
 		frag.appendChild(this.conteneurList);
@@ -99,13 +102,14 @@ export default class LogViewer extends HTMLElement {
 			p.appendChild(pText);
 			this.conteneurList.replaceChild(p, this.elWaiting);			
 			
-			let userForm = document.createElement("elem-userform");
-			this.conteneurList.appendChild(userForm);
+			this.userForm = document.createElement("elem-userform");
+			this.conteneurList.appendChild(this.userForm);
 			
 			const config = { attributes: true };
 			this.observer_userForm = new MutationObserver(this.closeElementInit);
-			this.observer_userForm.observe(userForm, config);
-		} else { 
+			this.observer_userForm.observe(this.userForm, config);
+		} else {
+			this.buttonBeforeLogs.addEventListener("click", this.logBefore);
 			this.apikey = obj.apikey;
 			let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogsGrp);
 			url.searchParams.set('apikey', this.apikey);
@@ -122,13 +126,12 @@ export default class LogViewer extends HTMLElement {
 		}
 		this.elWaiting = document.createElement("waiting-el");
 		this.conteneurList.appendChild(this.elWaiting);
-		
-		this.tools.ressourcesGET(this.validForLogs, this.putLogs);
 	}
 	
 	closeElementInit() {
 		this.timeoutAction = setTimeout(() => {
 			this.delNodesInit();
+			this.tools.ressourcesGET(this.validForLogs, this.putLogs);
 		}, 3000);
 	}
 	
@@ -163,7 +166,7 @@ export default class LogViewer extends HTMLElement {
 			frag.appendChild(this.msgError);
 		} else {
 			for(let i = obj.length -1; i >= 0; i--) {
-				this.dataIdUp = obj[i].id;
+				this.dataIdUp = parseInt(obj[i].id);
 				let node = this.createElLine(obj[i]);
 				if(frag.childNodes.length > 0) { frag.insertBefore(node, frag.firstChild); }
 				else { frag.appendChild(node); }
@@ -178,6 +181,11 @@ export default class LogViewer extends HTMLElement {
 		if(this.conteneurList.childNodes.length > 0) { this.conteneurList.insertBefore(frag, this.conteneurList.firstChild); }
 		else { this.conteneurList.appendChild(frag); }
 		
+		
+		if(this.timeoutCheckNew) {
+			clearTimeout(this.timeoutCheckNew);
+			this.timeoutCheckNew = null;
+		}
 		this.loopCheckNewLogs();
 	}
 	
@@ -193,22 +201,30 @@ export default class LogViewer extends HTMLElement {
 			for(let i = 0; i < obj.length; i++) {
 				let node = this.createElLine(obj[i]);
 				frag.appendChild(node);
-				this.dataIdDown += 1;
+				this.dataIdDown = this.dataIdDown + 1;
 			}
 			this.conteneurList.appendChild(frag);
 			this.conteneurList.scrollTop = this.conteneurList.scrollHeight;			
 		}
 		
-		this.timeoutCheckNew = setTimeout(() => {
-			this.loopCheckNewLogs();
-		}, 1000);
+		if(this.timeoutCheckNew) {
+			clearTimeout(this.timeoutCheckNew);
+			this.timeoutCheckNew = null;
+		}
+		this.loopCheckNewLogs();
+		
+		console.log("logviewer dataIdDown : " + this.dataIdDown);
+
 	}
 	
 	loopCheckNewLogs() {
-		let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogsStart);
-		url.searchParams.set('apikey', this.apikey);
-		url.searchParams.set('start', (this.dataIdDown === null) ? 0 : this.dataIdDown) ;
-		this.tools.ressourcesGET(url.toString(), this.addElList);
+		this.timeoutCheckNew = setTimeout(() => {
+			let url = new URL(location.protocol + "//" + location.hostname + "/" + this.apiLogsStart);
+			url.searchParams.set('apikey', this.apikey);
+			url.searchParams.set('start', (this.dataIdDown === null) ? 0 : this.dataIdDown) ;
+			this.tools.ressourcesGET(url.toString(), this.addElList);			
+		}, 3000);
+
 	}
 	
 	logBefore() {

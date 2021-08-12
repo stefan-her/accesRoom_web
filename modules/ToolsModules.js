@@ -1,7 +1,7 @@
 "use-strict";
 
 export default class ToolsModules {
-		
+	
 	addStyle(url, ...arg) {
 		const LINK = document.createElement('link'); 
 		LINK.href = url; 
