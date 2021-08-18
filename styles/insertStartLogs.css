@@ -34,6 +34,7 @@ elem-insertStartLogs > div > div > div {
 	display: flex;
 	flex-direction: column;
 	flex: 1;
+	overflow: hidden;
 }
 
 elem-insertStartLogs > div > div > div > h1 {
@@ -48,9 +49,9 @@ elem-insertStartLogs > div > div > div > h1 ~ div {
 	padding: 0;
 	flex: 1;
 	background: #000;
-	height: 13em;
-	max-height: 13em;
-	overflow: scroll;
+	min-height: 0;
+	overflow-y: scroll;
+	overflow-x: hidden;
 }
 
 elem-insertStartLogs > div > div > div > h1 ~ div p {

@@ -9,7 +9,7 @@ try {
     $res = new DBexist();
     if(isset($res->values["error"])  &&  $res->values["error"]) { throw new Exception($res->values["error"]); }
     
-    $res = new DBcolumnName("user");
+    $res = new DBcolumnName(DBtables::TB3);
     if(isset($res->values["error"])  &&  $res->values["error"]) { throw new Exception($res->values["error"]); }
     
 } catch (Exception $e) {

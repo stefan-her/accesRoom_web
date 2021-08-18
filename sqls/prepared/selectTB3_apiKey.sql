@@ -1,3 +1,3 @@
-SELECT DISTINCT `id_user` 
-FROM `room_access`.`user`  
+SELECT DISTINCT `id_members` 
+FROM `room_access`.`members`  
 WHERE `apikey` = ? 

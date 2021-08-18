@@ -1,8 +1,8 @@
-UPDATE `room_access`.`user` 
+UPDATE `room_access`.`members` 
 SET 
 	`firstname` = ?, 
     `lastname` = ?, 
     `phone` = ?, 
     `email` = ?,
     `password` = ?
-WHERE `user`.`id_user` = ?;
+WHERE `members`.`id_members` = ?;

@@ -151,6 +151,8 @@ export default class InitDb extends HTMLElement {
 	}
 	
 	closeElement() {
+		this.element.closeButton.addEventListener("click", this.close);
+		this.element.closeButton.removeAttribute("disabled");
 		this.timeoutAction = setTimeout(() => {
 			this.close();
 		}, 3000);

@@ -1,0 +1,21 @@
+{ "apikey" : "", "tb" : "members", "fields" : {"firstname": "Henry", "lastname": "Du Four", "phone": "0477 09 64 78", "email": "henrydufour@gmail.com"}}
+{ "apikey" : "", "tb" : "tool", "fields" : {"tool": "Stylo"}}
+{ "apikey" : "", "tb" : "tool", "fields" : {"tool": "crayon"}}
+{ "apikey" : "", "tb" : "members", "fields" : {"firstname": "Philippe", "lastname": "Dumanais", "phone": "0477 67 98 45", "email": "pduamnais@hotmail.com"}}
+{ "apikey" : "", "tb" : "members", "fields" : {"firstname": "Jean-Marc", "lastname": "Watchou", "phone": "0477090456", "email": "jm.watchou@garchi.be"}}
+{ "apikey" : "", "tb" : "role", "fields" : {"role": "organisateur"}}
+{ "apikey" : "", "tb" : "tool", "fields" : {"tool": "projecteur"}}
+{ "apikey" : "", "tb" : "members", "fields" : {"firstname": "Anne", "lastname": "Pourtout", "phone": "0477678434", "email": "apourtout@belgacom.be"}}
+{ "apikey" : "", "tb" : "room", "fields" : {"name": "local réunion 1"}}
+{ "apikey" : "", "tb" : "tool", "fields" : {"tool": "hub usb"}}
+{ "apikey" : "", "tb" : "tool", "fields" : {"tool": "blocs notes"}}
+{ "apikey" : "", "tb" : "room", "fields" : {"name": "salle de conférence"}}
+{ "apikey" : "", "tb" : "room", "fields" : {"name": "auditoir"}}
+{ "apikey" : "", "tb" : "role", "fields" : {"role": "participant"}}
+{ "apikey" : "", "tb" : "members", "fields" : {"firstname": "Jasmine", "lastname": "Avarte", "phone": "0477698745", "email": "j.avarte@mail.be"}}
+{ "apikey" : "", "tb" : "members", "fields" : {"firstname": "Claude", "lastname": "Wimes", "phone": "064590456", "email": "claude.wimes@proximus.be"}}
+{ "apikey" : "", "tb" : "role", "fields" : {"role": "préparateur"}}
+{ "apikey" : "", "tb" : "tool", "fields" : {"tool": "ordinateur"}}
+{ "apikey" : "", "tb" : "meeting", "fields" : {"title": "réunion d'information", "room": 1, "begin": "2021-08-19 11:00:00", "end": "2021-08-19 12:00:00"}}
+{ "apikey" : "", "tb" : "meeting", "fields" : {"title": "évaluation du projet", "room": 2, "begin": "2021-08-20 09:00:00", "end": "2021-08-20 12:00:00"}}
+{ "apikey" : "", "tb" : "meeting", "fields" : {"title": "remise de la version beta du projet", "room": 2, "begin": "2021-08-24 08:30:00", "end": "2021-08-24 16:00:00"}}

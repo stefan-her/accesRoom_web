@@ -27,7 +27,8 @@ class Globals {
     const SQLDIR_ORGS = "orgs";
     const SQLDIR_PREPARED = "prepared";
     const DBINFO_STUCTURE = "DBtables.php";
-    const DEMOINSERTLOG_INSERTED = "demoInsertLog_inserted.txt";
+    const INSERTSTARTLOGS_INSERTED = "insertStartLog_inserted.txt";
+    const INSERTSTARTLOGS_FILE = "insertStartLogs.json";
 }
 
 ?>

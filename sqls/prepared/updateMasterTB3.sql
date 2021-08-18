@@ -1,3 +1,3 @@
-UPDATE `room_access`.`user` 
+UPDATE `room_access`.`members` 
 SET `master` = ? 
-WHERE `user`.`id_user` = ?;
+WHERE `members`.`id_members` = ?;
