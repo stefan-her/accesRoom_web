@@ -25,7 +25,11 @@ export default class UserForm extends HTMLElement {
 		this.validUser = this.validUser.bind(this);
 		this.getRespCreateUser = this.getRespCreateUser.bind(this);
 		this.putFieldsName = this.putFieldsName.bind(this);
-		this.putMasterValues = this.putMasterValues.bind(this);
+		//this.putMasterValues = this.putMasterValues.bind(this);
+		
+		
+		this.getFieldsValue = this.getFieldsValue.bind(this);
+		
 		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
 		this.initView();
 	}
@@ -43,11 +47,26 @@ export default class UserForm extends HTMLElement {
 	
 	putRessource(resp) {
 		this.resString = resp;
+		this.tools.ressourcesGET(this.getMaster, this.getFieldsValue);
+	}
+	
+	getFieldsValue(resp) {
+		if(resp && !resp["error"] && !resp["empty"]) {
+			this.valuesMaster = resp;
+			this.update = true;
+		}
 		this.tools.ressourcesGET(this.getFielsName, this.putFieldsName);
 	}
 	
 	putFieldsName(resp) {
-		Object.keys(resp).forEach((key)  => { 
+		let els = {};
+		if(this.update) {
+			Object.keys(this.valuesMaster).forEach((key)  => { 
+				if(resp[key]) { els[key] = resp[key]; }
+			});			
+		} else { els = resp; }
+		
+		Object.keys(els).forEach((key)  => { 
 			if(this.resString["lb_"+key]) {
 				let reg = (this.resRegEx[key.toUpperCase()]) ? this.resRegEx[key.toUpperCase()] : this.resRegEx["TEXT"];
 				this.formFields[key] = { 
@@ -58,20 +77,22 @@ export default class UserForm extends HTMLElement {
 					};
 			}			
 		});
-		this.tools.ressourcesGET(this.getMaster, this.putMasterValues);
-	}
+		
+		if(this.update) {
+			this.putMasterValues(this.valuesMaster);
+		}
+		
+		this.askMasterUser();
+	}	
 	
 	putMasterValues(resp) {
 		if(resp && !resp["error"] && !resp["empty"]) {
 			Object.keys(resp).forEach((key)  => { 
 				if(this.formFields[key]) {
 					this.formFields[key]["value"] = resp[key];
-				}		
+				}
 			});	
-			this.update = true;	
 		}
-
-		this.askMasterUser();
 	}
 			
 	askMasterUser() {

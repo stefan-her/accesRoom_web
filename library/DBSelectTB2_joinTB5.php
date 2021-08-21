@@ -1,11 +1,11 @@
 <?php
 
-class DBSelectTB2_joinTB6 extends DBtools {
+class DBSelectTB2_joinTB5 extends DBtools {
     
-    const FILE = "selectTB2_joinTB6.sql";
+    const FILE = "selectTB2_joinTB5.sql";
     
     
-    public function __construct($start, $limit) {
+    public function __construct($id) {
         
         try {
             $path = $this->buildPath(self::FILE);
@@ -14,7 +14,7 @@ class DBSelectTB2_joinTB6 extends DBtools {
             $this->getSql();
             $this->connect();
             $this->mysqli->select_db(DBtables::DB);
-            $this->request($start, $limit);
+            $this->request($id);
         } catch (Exception $e) {
             $this->values["error"] = $e->getMessage();
         } finally {
@@ -22,9 +22,9 @@ class DBSelectTB2_joinTB6 extends DBtools {
         }
     }
     
-    private function request($start, $limit) {
+    private function request($id) {
         if ($stmt = $this->mysqli->prepare($this->sql)) {
-            $stmt->bind_param("ii", $start, $limit);
+            $stmt->bind_param("i", $id);
             $stmt->execute();
             $r = $stmt->get_result();
             if(mysqli_stmt_error($stmt)) {

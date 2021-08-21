@@ -15,6 +15,7 @@ abstract class DBtools {
         if ($this->mysqli->connect_errno) {
             throw new Exception("connect fail");
         }
+        
     }
     
     protected function disconnect() {
@@ -34,6 +35,9 @@ abstract class DBtools {
     }
 
     public function getContent() {
+        header('Access-Controle-Allow-Origin:*');
+        header('Access-Controle-Allow-Header: Origin, X-Requested-With, Content-type, Accept');
+        header('Access-Controle-Allow-Header: GET, POST, PUT, DELETE');
         header('Content-Type: application/json');
         echo json_encode($this->values);
     }

@@ -66,7 +66,6 @@ export default class InsertStartLogs extends HTMLElement {
 			this.appendChild(this.masterUserForm);
 			this.masterUserForm.initView();
 			
-			
 			const config = { attributes: true };
 			this.observer = new MutationObserver(this.openCheckMasterUser);
 			this.observer.observe(this, config);
@@ -78,10 +77,10 @@ export default class InsertStartLogs extends HTMLElement {
 				this.masterUserForm = null;
 			}
 			console.log("par ici");
-			if(!this.element) { this.open(); }
+			if(!this.element) { this.open() }
 		}
 	}	
-		
+			
 	open() {
 		this.element = this.tools.openElement(this.buttonInit, this.open, this, this.close);
 		const VALUEBUTTON = document.createTextNode(this.resString.bt_close);

@@ -3,6 +3,5 @@ SET
 	`firstname` = ?, 
     `lastname` = ?, 
     `phone` = ?, 
-    `email` = ?,
-    `password` = ?
+    `email` = ?
 WHERE `##TB3##`.`id_##TB3##` = ?;

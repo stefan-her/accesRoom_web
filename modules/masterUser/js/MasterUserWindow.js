@@ -3,9 +3,6 @@
 import Tools from '../../ToolsModules.js';
 
 export default class MasterUserWindow extends HTMLElement {
-	
-	//constructor() {
-		//super();
 		
 	connectedCallback() {	
 		this.tools = new Tools();
@@ -22,7 +19,6 @@ export default class MasterUserWindow extends HTMLElement {
 		this.putRessource = this.putRessource.bind(this);
 		this.closeElementInit = this.closeElementInit.bind(this);
 		if(this.hasAttribute("style")) { this.tools.addStyle(this.getAttribute("style")); }
-		//this.initView();
 	}
 	
 	disconnectedCallback() {
@@ -37,7 +33,6 @@ export default class MasterUserWindow extends HTMLElement {
 	
 	putRessource(res) {
 		this.resString = res;
-		//this.buttonInit.addEventListener("click", this.open);
 		this.open();
 	}
 	

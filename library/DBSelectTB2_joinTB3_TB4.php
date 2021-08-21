@@ -1,11 +1,11 @@
 <?php
 
-class DBSelectTB2_joinTB6 extends DBtools {
+class DBSelectTB2_joinTB3_TB4 extends DBtools {
     
-    const FILE = "selectTB2_joinTB6.sql";
+    const FILE = "selectTB2_joinTB3_TB4.sql";
     
     
-    public function __construct($start, $limit) {
+    public function __construct($id) {
         
         try {
             $path = $this->buildPath(self::FILE);
@@ -14,7 +14,7 @@ class DBSelectTB2_joinTB6 extends DBtools {
             $this->getSql();
             $this->connect();
             $this->mysqli->select_db(DBtables::DB);
-            $this->request($start, $limit);
+            $this->request($id);
         } catch (Exception $e) {
             $this->values["error"] = $e->getMessage();
         } finally {
@@ -22,22 +22,24 @@ class DBSelectTB2_joinTB6 extends DBtools {
         }
     }
     
-    private function request($start, $limit) {
+    private function request($id) {
+        $s1 = "organisateur";
+        $s2 = "participant";
+        $s3 = "preparateur";
+        
+        $this->mysqli->set_charset('utf8');
         if ($stmt = $this->mysqli->prepare($this->sql)) {
-            $stmt->bind_param("ii", $start, $limit);
+            $stmt->bind_param("isisisii", $id, $s1, $id, $s2, $id, $s3, $id, $id);
             $stmt->execute();
-            $r = $stmt->get_result();
-            if(mysqli_stmt_error($stmt)) {
-                $this->values["error"] = mysqli_stmt_error($stmt);
-            } elseif($r->num_rows == 0) {
-                $this->values["empty"] = true;
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if($result->num_rows == 1) {
+                $this->values["result"] = $result->fetch_array(MYSQLI_ASSOC);
             } else {
-                while ($row = $r->fetch_array(MYSQLI_ASSOC)) {
-                    $this->values["result"][] = array_map("utf8_encode", $row);
-                }
+                $this->values["empty"] = true;
+                $this->values["error"] = "no user infos found";
             }
             $stmt->close();
-            $r->free();
         } else { throw new Exception($this->sql . " -> " . $this->mysqli->error); }
     }
 }

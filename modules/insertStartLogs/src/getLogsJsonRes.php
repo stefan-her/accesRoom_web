@@ -21,7 +21,7 @@ if(empty($res->values["error"]) || !$res->values["error"]) {
         $line = (is_numeric($v)) ? intval($v) +1 : null;
     } else { $line = (isset($_GET["line"])) ? intval($_GET["line"]) : 0; }
     
-    
+    //sleep(1);
     $content = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     
     if(count($content) > ($line)) {

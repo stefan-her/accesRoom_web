@@ -1,11 +1,11 @@
 <?php
 
-class DBSelectTB2_joinTB6 extends DBtools {
+class DBSelectTB3_userInfos extends DBtools {
     
-    const FILE = "selectTB2_joinTB6.sql";
+    const FILE = "selectTB3_userInfos.sql";
     
     
-    public function __construct($start, $limit) {
+    public function __construct($email, $pwd) {
         
         try {
             $path = $this->buildPath(self::FILE);
@@ -14,7 +14,7 @@ class DBSelectTB2_joinTB6 extends DBtools {
             $this->getSql();
             $this->connect();
             $this->mysqli->select_db(DBtables::DB);
-            $this->request($start, $limit);
+            $this->request($email, $pwd);
         } catch (Exception $e) {
             $this->values["error"] = $e->getMessage();
         } finally {
@@ -22,22 +22,19 @@ class DBSelectTB2_joinTB6 extends DBtools {
         }
     }
     
-    private function request($start, $limit) {
+    private function request($email, $pwd) {
         if ($stmt = $this->mysqli->prepare($this->sql)) {
-            $stmt->bind_param("ii", $start, $limit);
+            $stmt->bind_param("ss", $email, $pwd);
             $stmt->execute();
-            $r = $stmt->get_result();
-            if(mysqli_stmt_error($stmt)) {
-                $this->values["error"] = mysqli_stmt_error($stmt);
-            } elseif($r->num_rows == 0) {
-                $this->values["empty"] = true;
+            $result = $stmt->get_result();
+            if($result->num_rows == 1) {
+                $this->values["result"] = $result->fetch_array(MYSQLI_ASSOC);
             } else {
-                while ($row = $r->fetch_array(MYSQLI_ASSOC)) {
-                    $this->values["result"][] = array_map("utf8_encode", $row);
-                }
+                $this->values["empty"] = true;
+                $this->values["error"] = "no user infos found";
             }
             $stmt->close();
-            $r->free();
         } else { throw new Exception($this->sql . " -> " . $this->mysqli->error); }
     }
 }
+

@@ -3,6 +3,5 @@ SET
 	`firstname` = ?, 
     `lastname` = ?, 
     `phone` = ?, 
-    `email` = ?,
-    `password` = ?
+    `email` = ?
 WHERE `members`.`id_members` = ?;

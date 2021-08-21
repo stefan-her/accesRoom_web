@@ -1,3 +1,3 @@
 INSERT INTO `room_access`.`members` 
 (`firstname`, `lastname`, `phone`, `email`, `password`, `apikey`) 
-VALUES (?,?,?,?,?,?)
+VALUES (?,?,?,?, SHA1(?),?)
