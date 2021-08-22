@@ -1,0 +1,9 @@
+bt_init : insert log
+bt_close : close
+bt_submit : add JSON Log
+h_error : error
+tl_insertlog : insert log
+lg_info : log JSON
+p_errorMsg : don't matche json format
+p_errorReturnMsg : insert fail
+p_insertMsg : log insert

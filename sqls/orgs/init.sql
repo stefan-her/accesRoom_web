@@ -118,11 +118,11 @@ CREATE TRIGGER `dispatcher` AFTER INSERT ON `##TB1##` FOR EACH ROW
 	THEN 
 		IF (
 	        JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.action'))
-	    ) = "insert"
+	    ) = 'insert'
 	    THEN 	
 	    	CASE
 	
-				WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = "##TB2##"
+				WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = '##TB2##'
 				THEN
 					SET @fields = JSON_EXTRACT(new.content,'$.fields');
 				    SET @fieldsName = JSON_KEYS(@fields);
@@ -179,7 +179,7 @@ CREATE TRIGGER `dispatcher` AFTER INSERT ON `##TB1##` FOR EACH ROW
 					VALUES(@title, @room, @begin, @end);
 					
 	        
-			    WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = "##TB3##"
+			    WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = '##TB3##'
 			    THEN
 					SET @fields = JSON_EXTRACT(new.content,'$.fields');
 			        SET @fieldsName = JSON_KEYS(@fields);
@@ -218,7 +218,7 @@ CREATE TRIGGER `dispatcher` AFTER INSERT ON `##TB1##` FOR EACH ROW
 			        VALUES(@firstname, @lastname, @phone, @email, @password);  
 	                
 	 		    	
-			   WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = "##TB5##"
+			   WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = '##TB5##'
 			   THEN
 					SET @fields = JSON_EXTRACT(new.content,'$.fields');
 			        SET @fieldsName = JSON_KEYS(@fields);
@@ -230,7 +230,7 @@ CREATE TRIGGER `dispatcher` AFTER INSERT ON `##TB1##` FOR EACH ROW
 			        END IF;
 	                    
 	                    
-			    WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = "##TB4##"
+			    WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = '##TB4##'
 			    THEN
 					SET @fields = JSON_EXTRACT(new.content,'$.fields');
 			        SET @fieldsName = JSON_KEYS(@fields);
@@ -242,7 +242,7 @@ CREATE TRIGGER `dispatcher` AFTER INSERT ON `##TB1##` FOR EACH ROW
 			        END IF; 
 			                   
 	        
-			    WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = "##TB6##"
+			    WHEN (JSON_UNQUOTE(JSON_EXTRACT(new.content, '$.tb'))) = '##TB6##'
 			    THEN
 					SET @fields = JSON_EXTRACT(new.content,'$.fields');
 			        SET @fieldsName = JSON_KEYS(@fields);

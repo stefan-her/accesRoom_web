@@ -98,10 +98,13 @@ export default class ToolsModules {
 		form.addEventListener("submit", (e) => { validator(e); });
 		
 		let fieldset = document.createElement("fieldset");
-		let legend = document.createElement("legend");
-		let legendText = document.createTextNode(lg);
-		legend.appendChild(legendText);
-		fieldset.appendChild(legend);
+		
+		if(lg.trim() != "") {
+			let legend = document.createElement("legend");
+			let legendText = document.createTextNode(lg);
+			legend.appendChild(legendText);
+			fieldset.appendChild(legend);			
+		}
 		
 		Object.keys(obj).forEach((key)  => { 
 			let label = document.createElement("label");

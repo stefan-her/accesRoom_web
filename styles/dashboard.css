@@ -47,6 +47,9 @@ elem-dashboard header div button {
 	background-color: #fff;
 }
 
+elem-dashboard header div button::first-letter {
+	text-transform: uppercase;
+}
 
 elem-dashboard header div button:active {
 	background-color: #777778;

@@ -23,7 +23,7 @@ export default class LogViewer extends HTMLElement {
 		this.userForm = null;
 		this.lang = (document.documentElement.lang) ? document.documentElement.lang : "en";
 		this.ressources = "modules/logViewer/src/ressources.php";
-		this.validForLogs = "modules/logViewer/src/validForLogs.php";
+		this.validForLogs = "api/get_validForLogs.php";
 		this.apiLogsGrp = "api/get_logsGrp.php";
 		this.apiLogsStart = "api/get_logsStart.php";
 		this.resString = null;
